@@ -68,10 +68,10 @@
 		.slide .ladder { display: flex; gap: 12px; align-items: flex-end; margin-top: .4em; }
 		.slide .ladder .lvl {
 			flex: 1; background: #eef6f0; border-radius: 10px 10px 0 0;
-			padding: 14px 14px 16px; text-align: left;
+			padding: 14px 14px 16px; text-align: left; line-height: 1.2;
 		}
 		.slide .ladder .lvl span { color: #1a7a32; font-weight: 800; font-size: .7em; letter-spacing: .05em; }
-		.slide .ladder .lvl b { display: block; font-size: .82em; margin: .15em 0 .25em; }
+		.slide .ladder .lvl b { display: block; font-size: .82em; margin: .15em 0 .3em; line-height: 1.15; }
 		.slide .ladder .lvl p { font-size: .62em; line-height: 1.25; margin: 0; color: #555; }
 		.slide .ladder .lvl.l0 { min-height: 110px; }
 		.slide .ladder .lvl.l1 { min-height: 140px; }
@@ -91,7 +91,7 @@
 			display: flex; flex-direction: column;
 			align-items: center; justify-content: center; gap: 16px;
 		}
-		.slide .ask .ask-hand { font-size: 160px; line-height: 1; }
+		.slide .ask .ask-hand { font-size: 160px; line-height: 1; font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif; }
 		.slide .ask .ask-q {
 			margin: 0; text-align: center;
 			font-size: 58px; font-weight: 800; color: #0b3d2e; line-height: 1.1;
@@ -125,6 +125,11 @@
 		.ptag-plus { background: rgba(75, 134, 194, 0.18); color: #2f6093; }
 		.ptag-must { background: rgba(111, 0, 255, 0.15); color: #6f00ff; }
 		.ptag-base { background: #000000; color: #ffffff; }
+
+		/* ——— Список выводов: увеличенные отступы ——— */
+		.slide ol.conclusions { line-height: 1.4; }
+		.slide ol.conclusions > li { margin-top: .9em; }
+		.slide ol.conclusions > li:first-child { margin-top: 0; }
 	</style>
 </head>
 <body class="shower list">
@@ -184,12 +189,11 @@
 				<p>Единая платформа и workflow на OpenSpec</p>
 			</div>
 		</div>
-		<p class="note">Реальный путь со всеми граблями.</p>
 	</section>
 
 	<!-- ========================= ВОПРОСЫ ЗАЛУ ========================= -->
 	<section class="slide">
-		<h2>Сначала — вопрос залу</h2>
+		<h2><span role="img" aria-label="человек с поднятой рукой" style='font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;'>🙋</span> Вопросы залу про adoption</h2>
 		<p class="lead">Поднимите руку, если это про вас:</p>
 		<ul>
 			<li>Кто тут <b>тимлид и выше</b>?</li>
@@ -208,7 +212,6 @@
 			<li class="next">Протестировали → увидели реальное <b>контекстное ускорение</b></li>
 			<li class="next">К лету <b class="a">пересадили большинство разработчиков</b> на этот инструментарий</li>
 		</ul>
-		<p class="note next">Начало 2025 · первый осязаемый эффект от AI в коде</p>
 	</section>
 
 	<!-- ========================= ФАЗА 2 — АГЕНТЫ ========================= -->
@@ -223,7 +226,7 @@
 		</ul>
 	</section>
 
-	<!-- ========================= ЗАБАВНЫЙ ФАКТ ========================= -->
+	<!-- ========================= ЗАБАВНЫЙ ФАКТ (скрыт) =========================
 	<section class="slide">
 		<h2>Забавный факт про фронтов</h2>
 		<ul>
@@ -232,8 +235,8 @@
 			<li class="next"><b>Нифига.</b> Пара человек затянулись в клуб, но уже сильно позже</li>
 			<li class="next">Из остальных цехов энтузиасты были</li>
 		</ul>
-		<p class="note next">Вывод: интерес снизу — не равномерный. На это нужно закладываться.</p>
 	</section>
+	========================================================================== -->
 
 	<!-- ========================= ВЫБОР ИНСТРУМЕНТА ========================= -->
 	<section class="slide">
@@ -255,7 +258,6 @@
 			<li>Зарегистрировать зарубежный <b>Team-аккаунт</b> в моменте не получилось — несколько попыток, всё мимо</li>
 			<li class="next">Решение на тот момент: <b class="a">система кешбэков за подписки</b></li>
 		</ul>
-		<p class="note next">Рабочее решение, чтобы не тормозить внедрение.</p>
 	</section>
 
 	<!-- ========================= DIVIDER: МАСШТАБИРОВАНИЕ ========================= -->
@@ -278,7 +280,6 @@
 			<li class="next">Раз в месяц собирали <b>статистику по всем</b></li>
 			<li class="next">Большую часть трекинга взяли на себя <b>руководители цехов и тимлиды</b> — они сами были участниками клуба</li>
 		</ul>
-		<p class="note next">Адопшн «прошит» в людей, у которых уже есть авторитет в команде.</p>
 	</section>
 
 	<!-- ========================= ПАРНОЕ ПРОГРАММИРОВАНИЕ ========================= -->
@@ -290,7 +291,6 @@
 			<li class="next"><b>Бил по рукам</b>, если тот пытался сделать что-то вручную вместо агента</li>
 			<li class="next">Хватало <b class="a">0.5–1 дня</b>, чтобы пробить скепсис — на своём проекте, на своей задаче</li>
 		</ol>
-		<p class="note next">Убеждает собственная задача, решённая агентом за полдня.</p>
 	</section>
 
 	<!-- ========================= ДВА СКЕПТИКА ========================= -->
@@ -393,14 +393,9 @@
 	<!-- ========================= МОДЕЛЬ ЗРЕЛОСТИ AI В SDLC ========================= -->
 	<section class="slide">
 		<h2>Модель зрелости внедрения AI в SDLC</h2>
-		<div class="ladder">
-			<div class="lvl l0"><span>L0</span><b>Классический процесс</b><p>Кодим сами, AI почти нет</p></div>
-			<div class="lvl l1"><span>L1</span><b>Чат-ассистент</b><p>Чат как внешний помощник, автокомплит</p></div>
-			<div class="lvl l2"><span>L2</span><b>Локальные агенты</b><p>Claude Code / Codex под надзором, человек отвечает за результат</p></div>
-			<div class="lvl l3"><span>L3</span><b>Background-агенты</b><p>AI-native, облачный runtime, HITL по требованию</p></div>
-			<div class="lvl l4"><span>L4</span><b>Полная автономность</b><p>E2E-решение, «тёмная фабрика»</p></div>
-		</div>
-		<p class="note">Мы хотим на уровне команды устойчиво выходить на более высокие уровни автономности.</p>
+		<img src="pictures/process-e2e.svg" alt="Self-service платформа: background-агенты ведут analyst → dev → qa"
+			 style="width:100%; max-width:1000px; display:block; margin:40px auto 0;">
+		<p class="note next">Ориентир — self-service платформа: поток ведут background-агенты, человек подключается по требованию.</p>
 	</section>
 
 	<!-- ========================= АВТОНОМНОСТЬ → БАС-ФАКТОР ========================= -->
@@ -412,7 +407,6 @@
 			<li class="next">Меньше команда → выше риск завязки на конкретных людей</li>
 			<li class="next">Повышение <b class="a">уровня автономности</b> процесса — то, что в том числе <b>уменьшает бас-фактор</b></li>
 		</ul>
-		<p class="note next">Процесс и спеки хранят знание о системе вне голов конкретных инженеров.</p>
 	</section>
 
 	<!-- ========================= КЕЙС СТРАТСЕССИИ — МОСТ ========================= -->
@@ -510,7 +504,6 @@
 				</ul>
 			</li>
 		</ol>
-		<p class="note next">Сдвигаем e2e ближе к разработчику — раньше ловим интеграцию.</p>
 	</section>
 
 	<!-- ========================= ПЛАН ТЕСТИРОВАНИЯ ========================= -->
@@ -519,7 +512,7 @@
 		<ul>
 			<li>План тестов — <b>часть change</b>, рождается вместе с ним</li>
 			<li class="next">Генерируется агентом из <b>proposal и спеки</b></li>
-			<li class="next">Покрытие на двух уровнях: <b>юнит/интеграция</b> и <b>e2e-сценарии</b></li>
+			<li class="next">Покрытие на нескольких уровнях: <b>юнит/интеграция</b>, <b>компонентный</b> (на фронте) и <b>e2e-сценарии</b></li>
 			<li class="next">Спеки дают <b class="a">проверяемый критерий</b>: тест отвечает на пункт спеки</li>
 		</ul>
 	</section>
@@ -527,25 +520,42 @@
 	<!-- ========================= ДОКУМЕНТАЦИЯ ДЛЯ СТЕЙКХОЛДЕРОВ ========================= -->
 	<section class="slide">
 		<h2>Документация для стейкхолдеров</h2>
-		<p>Спеки технологичны. Стейкхолдерам нужен <b>человекочитаемый</b> срез.</p>
+		<p class="lead">Человекочитаемую доку <b class="a">собираем из спек</b> отдельным скилом.</p>
+		<div class="cards" style="align-items:stretch;">
+			<div class="card">
+				<span class="yr">источник истины</span>
+				<b>SDD-спеки</b>
+				<p><code>specs/</code> — поведение системы</p>
+			</div>
+			<div style="display:flex; align-items:center; color:#1a9c3a; font-size:30px; font-weight:800;">→</div>
+			<div class="card">
+				<span class="yr">отдельный скил</span>
+				<b>Экспорт</b>
+				<p>Человекочитаемый срез</p>
+			</div>
+			<div style="display:flex; align-items:center; color:#1a9c3a; font-size:30px; font-weight:800;">→</div>
+			<div class="card">
+				<span class="yr">стейкхолдеры</span>
+				<b>Confluence</b>
+				<p>Публикуем при правках</p>
+			</div>
+		</div>
 		<ul>
-			<li>Источник истины <b>один</b> — спеки; документация <b class="a">генерируется из них</b></li>
+			<li class="next">Правим спеки → дока пересобирается скилом, без ручной синхронизации</li>
 			<li class="next">Не плодим параллельную доку, которая устаревает на второй день</li>
-			<li class="next">Язык описания сценариев — мост между бизнесом и реализацией</li>
 		</ul>
-		<p class="note next">→ отсюда вопрос: на каком языке описывать сценарии?</p>
 	</section>
 
 	<!-- ========================= USECASE VS GHERKIN ========================= -->
 	<section class="slide">
 		<h2>UseCase vs Gherkin</h2>
-		<table class="striped">
-			<tr><th scope="col"></th><th>UseCase</th><th>Gherkin</th></tr>
-			<tr><th scope="row">Аудитория</th><td>Стейкхолдеры, продукт</td><td>Инженеры, автотесты</td></tr>
-			<tr><th scope="row">Форма</th><td>Сценарий «человеческим» языком</td><td>Given / When / Then</td></tr>
-			<tr><th scope="row">Сила</th><td>Понятность, смысл</td><td>Исполнимость</td></tr>
-		</table>
-		<p class="lead">Наш баланс: <b class="a">UseCase</b> — для смысла и стейкхолдеров, <b class="a">Gherkin/e2e</b> — для исполнения.</p>
+		<p class="lead" style="font-size:1em; margin-bottom:.3em;">По умолчанию в <b>OpenSpec</b> — <b class="a">Gherkin</b>.</p>
+		<ul style="font-size:.82em; line-height:1.3;">
+			<li class="next">Попробовали заменить на <b>UseCase</b> по просьбе аналитиков — человеку он читается удобнее</li>
+			<li class="next">Получили <b class="bad">деградацию качества автотестов</b>: Gherkin точнее как приёмочные критерии</li>
+			<li class="next"><b class="a">Вернули Gherkin</b> как основу</li>
+			<li class="next">Для некоторых элементов <b>дополнительно генерируем UseCase</b> — отдельным файлом в change OpenSpec</li>
+		</ul>
 	</section>
 
 	<!-- ========================= ПЛАНЫ ========================= -->
@@ -650,31 +660,27 @@
 			<li class="next">Часто — в <b class="bad">продакт-менеджменте</b>: бэклог большой, но <b>без DoR</b></li>
 			<li class="next">И в <b class="bad">пути до прода</b> — чтобы докатить изменение до продакшена</li>
 		</ul>
-<!--		<p class="note next">Разогнали разработку — узкое место всплыло раньше и позже по цепочке.</p>-->
 	</section>
 
 	<!-- ========================= ЭФФЕКТ И БЕЙЗЛАЙН ========================= -->
 	<section class="slide">
 		<h2>Эффект и бейзлайн</h2>
-		<p>Эффект честно меряется только относительно <b>зафиксированного бейзлайна</b>.</p>
-		<ul>
-			<li>Бейзлайн оценок у нас <b>уже был</b> — список компонентов с <b>типовыми блоками</b></li>
+		<ul style="font-size: 23px;">
+			<li>Бейзлайн оценок у нас <b>уже был</b> — список оценок типовых функциональностей и компонентов</li>
 			<li class="next">После уверенного адопшена <b>переоценили бейзлайн</b> заново</li>
 			<li class="next">Многие оценки <b class="a">сократились кратно</b></li>
-			<li class="next">Это и есть наш <b>доказанный эффект ускорения</b> — на своих же типовых задачах</li>
+			<li class="next">Это и есть наш <b>доказанный эффект ускорения</b> — на своих же</li>
 		</ul>
-		<p class="note next">Без бейзлайна любой «иксовый рост» — это маркетинг.</p>
 	</section>
 
 	<!-- ========================= ВЫВОДЫ ========================= -->
 	<section class="slide">
 		<h2>Выводы</h2>
-		<ol>
+		<ol class="conclusions">
 			<li class="lead">Внедряйте AI в SDLC <b class="a">сквозным образом</b> — единый процесс через всю цепочку</li>
 			<li class="lead next">Внедряйте <b class="a">SDD</b> — спеки как источник истины и общий язык для людей и агентов</li>
-			<li class="lead next">Стройте свой <b class="a">harness</b> — это движок вашего автомобиля: на нём вы едете и им обгоняете рынок</li>
+			<li class="lead next"><b class="a">Harness</b> — это движок/ядро вашего производственного процесса. И на рельсах SDD оно едет гораздно уверенее.</li>
 		</ol>
-		<p class="note next">Adoption — это про людей и процесс. Инструмент — лишь часть.</p>
 	</section>
 
 	<!-- ========================= THE END ========================= -->
