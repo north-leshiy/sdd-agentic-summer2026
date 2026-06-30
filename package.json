@@ -1,0 +1,22 @@
+{
+	"private": true,
+	"files": [
+		"pictures/**",
+		"index.html"
+	],
+	"scripts": {
+		"serve": "shower serve",
+		"bundle": "shower bundle",
+		"archive": "shower archive",
+		"pages": "shower pages",
+		"pdf": "shower pdf"
+	},
+	"dependencies": {
+		"@shower/core": "^3.5.1",
+		"@shower/ribbon": "^4.2.0"
+	},
+	"devDependencies": {
+		"@shower/cli": "^1.1.0",
+		"agent-browser": "^0.29.1"
+	}
+}

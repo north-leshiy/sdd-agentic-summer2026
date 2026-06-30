@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<title>AI в SDLC: путь к 100% adoption и сквозному SDD</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="node_modules/@shower/ribbon/styles/index.css">
+	<style>
+		.shower {
+			--slide-ratio: calc(16 / 9);
+		}
+
+		/* ——— Акценты ——— */
+		.slide .a   { color: #1a9c3a; }
+		.slide .dim { color: #8a8a8a; }
+
+		.slide .tag {
+			display: inline-block;
+			background: #e6f5ec;
+			color: #1a7a32;
+			padding: .12em .6em;
+			border-radius: .4em;
+			font-size: .55em;
+			font-weight: 700;
+			letter-spacing: .06em;
+			text-transform: uppercase;
+			vertical-align: middle;
+		}
+
+		.slide .lead { font-size: 1.15em; line-height: 1.35; }
+
+		/* ——— Обложка и секционные разделители ——— */
+		.slide.titlepage  { background: #0b3d2e; color: #eafaf0; }
+		.slide.titlepage .kicker {
+			color: #5fd08a; text-transform: uppercase;
+			letter-spacing: .2em; font-weight: 700;
+			font-size: .6em; margin: 0 0 .4em;
+		}
+		.slide.titlepage h2 { color: #fff; font-size: 1.7em; line-height: 1.05; margin: 0; }
+		.slide.titlepage .subtitle { color: #bfe6cd; font-size: .8em; margin-top: .5em; }
+		.slide.titlepage .author {
+			color: #8fd3a8; font-size: .62em; line-height: 1.4; margin-top: 1.1em;
+		}
+
+		.slide.divider { background: #1a9c3a; color: #fff; }
+		.slide.divider:after { visibility: hidden; }
+		.slide h2.shout { font-size: 90px; line-height: 1.1; }
+		.slide.divider h2.shout { color: #fff; }
+		.slide.divider .sub {
+			position: absolute; left: 100px; right: 100px; bottom: 70px;
+			color: #dff3e5; font-size: .8em; text-align: center;
+		}
+
+		/* ——— Большая цифра / KPI ——— */
+		.slide .kpi { color: #1a9c3a; font-weight: 800; font-size: 2.6em; line-height: 1; }
+
+		/* ——— Карточки-этапы ——— */
+		.slide .cards { display: flex; gap: 18px; margin-top: .3em; }
+		.slide .cards .card {
+			flex: 1; background: #f1f7f3; border-radius: 12px;
+			padding: 18px 20px; border-top: 4px solid #1a9c3a;
+		}
+		.slide .cards .card b { display: block; color: #0b3d2e; margin-bottom: .25em; line-height: 1.1; }
+		.slide .cards .card .yr { color: #1a9c3a; font-weight: 700; font-size: .7em; letter-spacing: .04em; }
+		.slide .cards .card p { font-size: .72em; line-height: 1.3; margin: .3em 0 0; }
+
+		/* ——— Лестница зрелости ——— */
+		.slide .ladder { display: flex; gap: 12px; align-items: flex-end; margin-top: .4em; }
+		.slide .ladder .lvl {
+			flex: 1; background: #eef6f0; border-radius: 10px 10px 0 0;
+			padding: 14px 14px 16px; text-align: left;
+		}
+		.slide .ladder .lvl span { color: #1a7a32; font-weight: 800; font-size: .7em; letter-spacing: .05em; }
+		.slide .ladder .lvl b { display: block; font-size: .82em; margin: .15em 0 .25em; }
+		.slide .ladder .lvl p { font-size: .62em; line-height: 1.25; margin: 0; color: #555; }
+		.slide .ladder .lvl.l0 { min-height: 110px; }
+		.slide .ladder .lvl.l1 { min-height: 140px; }
+		.slide .ladder .lvl.l2 { min-height: 170px; }
+		.slide .ladder .lvl.l3 { min-height: 200px; background: #1a9c3a; }
+		.slide .ladder .lvl.l3 span,
+		.slide .ladder .lvl.l3 b   { color: #fff; }
+		.slide .ladder .lvl.l3 p   { color: #dff3e5; }
+		.slide .ladder .lvl.l4 { min-height: 230px; background: #0b3d2e; }
+		.slide .ladder .lvl.l4 span { color: #8fd3a8; }
+		.slide .ladder .lvl.l4 b   { color: #fff; }
+		.slide .ladder .lvl.l4 p   { color: #cfe9d8; }
+
+		/* ——— Вопрос залу ——— */
+		.slide .ask {
+			position: absolute; inset: 0;
+			display: flex; flex-direction: column;
+			align-items: center; justify-content: center; gap: 16px;
+		}
+		.slide .ask .ask-hand { font-size: 160px; line-height: 1; }
+		.slide .ask .ask-q {
+			margin: 0; text-align: center;
+			font-size: 58px; font-weight: 800; color: #0b3d2e; line-height: 1.1;
+		}
+
+		.slide pre.tree { font-size: .62em; line-height: 1.5; }
+		.slide .ok  { color: #1a9c3a; font-weight: 700; }
+		.slide .bad { color: #c0392b; font-weight: 700; }
+
+		/* ——— Матрица инженерных практик (из ai-maturity-model) ——— */
+		.prac-matrix { width: 100%; border-collapse: collapse; font-size: 17px; margin-top: 2px; }
+		.prac-matrix th {
+			padding: 5px 12px; text-align: left; font-size: 14px;
+			text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid #d8d8d8;
+		}
+		.prac-matrix th.col-l2 { color: #4b86c2; text-align: center; }
+		.prac-matrix th.col-l3 { color: #6f00ff; text-align: center; }
+		.prac-matrix td { padding: 6px 12px; border-bottom: 1px solid #e3e3e3; vertical-align: middle; line-height: 1.5; }
+		.prac-matrix .prac-name { font-weight: bold; }
+		.prac-matrix .col-l2, .prac-matrix .col-l3 { text-align: center; width: 150px; }
+		.prac-matrix .col-l2 { background: rgba(75, 134, 194, 0.06); }
+		.prac-matrix .col-l3 { background: rgba(111, 0, 255, 0.06); }
+		.prac-matrix .lvl-ico { display: inline-block; vertical-align: -4px; margin-right: 7px; }
+		.prac-matrix .lvl-ico svg { width: 19px; height: 19px; }
+		.ptag {
+			display: inline-block; min-width: 118px; font-size: 13px; font-weight: bold;
+			border-radius: 20px; padding: 2px 10px;
+		}
+		.ptag-no   { color: #b0b0b0; font-weight: normal; }
+		.ptag-soft { background: rgba(75, 134, 194, 0.08); color: #7c9bba; font-weight: normal; }
+		.ptag-plus { background: rgba(75, 134, 194, 0.18); color: #2f6093; }
+		.ptag-must { background: rgba(111, 0, 255, 0.15); color: #6f00ff; }
+		.ptag-base { background: #000000; color: #ffffff; }
+	</style>
+</head>
+<body class="shower list">
+
+	<header class="caption">
+		<h1>AI в SDLC: путь к 100% adoption и сквозному SDD</h1>
+		<p>Доклад · 2026</p>
+	</header>
+
+	<!-- ========================= ОБЛОЖКА ========================= -->
+	<section class="slide titlepage">
+		<p class="kicker">AI в SDLC · история внедрения</p>
+		<h2>От автокомплита<br>до сквозного SDD</h2>
+		<p class="subtitle">Как мы за полтора года дошли до 100% adoption<br>и единого AI-процесса разработки</p>
+		<p class="author">CTO, Вебпрактик</p>
+	</section>
+
+	<!-- ========================= КТО Я ========================= -->
+	<section class="slide light">
+		<h2>Кто я</h2>
+		<ol>
+			<li>15+ лет в IT. Прошёл путь fullstack → teamlead → CTO</li>
+			<li class="next">CTO в Вебпрактик (150+)</li>
+			<li class="next">Программный комитет: AgenticDevConf, TechLead Conf, CTO Conf, Podlodka Crew, ПыхКонф</li>
+			<li class="next">Организатор ростовских сообществ аналитиков и разработчиков</li>
+			<li class="next">Трансформирую SDLC процессы 1.5 года:
+				<ul>
+					<li>Получил 100% adoption среди разработчиков ещё в 2025</li>
+					<li class="next"><b>Масштабирую</b> сквозной SDD-процесс на все команды</li>
+				</ul>
+			</li>
+		</ol>
+	</section>
+
+	<!-- ========================= МАРШРУТ ========================= -->
+	<section class="slide">
+		<h2>Маршрут доклада</h2>
+		<div class="cards">
+			<div class="card">
+				<span class="yr">начало 2025</span>
+				<b>Ассистент</b>
+				<p>Автокомплит и генерация блоков в IDE</p>
+			</div>
+			<div class="card">
+				<span class="yr">лето 2025</span>
+				<b>Агенты</b>
+				<p>AI-клуб, выбор инструмента, масштабирование</p>
+			</div>
+			<div class="card">
+				<span class="yr">конец 2025</span>
+				<b>100% adoption</b>
+				<p>Трекеры, парное, работа со скептиками</p>
+			</div>
+			<div class="card">
+				<span class="yr">2026</span>
+				<b>Сквозной SDD</b>
+				<p>Единая платформа и workflow на OpenSpec</p>
+			</div>
+		</div>
+		<p class="note">Реальный путь со всеми граблями.</p>
+	</section>
+
+	<!-- ========================= ВОПРОСЫ ЗАЛУ ========================= -->
+	<section class="slide">
+		<h2>Сначала — вопрос залу</h2>
+		<p class="lead">Поднимите руку, если это про вас:</p>
+		<ul>
+			<li>Кто тут <b>тимлид и выше</b>?</li>
+			<li class="next">У кого адопшен в <b>разработчиков &gt; 50%</b>?</li>
+			<li class="next">У кого адопшен <b class="a">100%</b>?</li>
+			<li class="next">А у кого адопшен в <b>аналитиков и QA &gt; 50%</b>?</li>
+		</ul>
+	</section>
+
+	<!-- ========================= ФАЗА 1 ========================= -->
+	<section class="slide">
+		<h2><span class="tag">Фаза 1</span> Автокомплит и ассистент</h2>
+		<ul>
+			<li>Мы все очень любим <b>JetBrains IDE</b> — поэтому в первую очередь смотрели плагины именно под неё</li>
+			<li class="next">В то время гремел <b>Windsurf</b>: великолепный автокомплит и генерация небольших блоков кода</li>
+			<li class="next">Протестировали → увидели реальное <b>контекстное ускорение</b></li>
+			<li class="next">К лету <b class="a">пересадили большинство разработчиков</b> на этот инструментарий</li>
+		</ul>
+		<p class="note next">Начало 2025 · первый осязаемый эффект от AI в коде</p>
+	</section>
+
+	<!-- ========================= ФАЗА 2 — АГЕНТЫ ========================= -->
+	<section class="slide">
+		<h2><span class="tag">Фаза 2</span> Будущее — за агентами</h2>
+		<p class="lead">Летом 2025 стало понятно: будущее — за полноценной <b class="a">агентной разработкой</b>.</p>
+		<p>Мы собрали <b>AI-клуб</b> — всех, кому интересно и кто готов копать, в т.ч. в личное время:</p>
+		<ul>
+			<li>Встречи раз в 1–2 недели: находки и задачи на ресёрч друг другу</li>
+			<li class="next">Старт — около <b>15 человек</b>, со временем вырос до <b>20</b></li>
+			<li class="next">Главная задача — выбрать <b>мейн</b>: тестировали агентов и модели</li>
+		</ul>
+	</section>
+
+	<!-- ========================= ЗАБАВНЫЙ ФАКТ ========================= -->
+	<section class="slide">
+		<h2>Забавный факт про фронтов</h2>
+		<ul>
+			<li>Из всех фронтендеров в клубе был <b>ровно один</b> человек</li>
+			<li class="next">Пошёл к фронтам лично: «Сейчас объявлю — точно набегут». Ну есть же амбиции — расти, работать бок о бок с сильными инженерами, в R&D, с CTO</li>
+			<li class="next"><b>Нифига.</b> Пара человек затянулись в клуб, но уже сильно позже</li>
+			<li class="next">Из остальных цехов энтузиасты были</li>
+		</ul>
+		<p class="note next">Вывод: интерес снизу — не равномерный. На это нужно закладываться.</p>
+	</section>
+
+	<!-- ========================= ВЫБОР ИНСТРУМЕНТА ========================= -->
+	<section class="slide">
+		<h2>Выбор мейн-инструмента</h2>
+		<p>Уверенности, что Claude — топ, тогда <b>не было</b>. Да и хорошего плагина под JetBrains у него не было — обвязка с любимым инструментом страдала.</p>
+		<p>Но, перепробовав кучу инструментов и моделей, мы выбрали:</p>
+		<p><span class="kpi">Claude Code</span></p>
+		<ul>
+			<li><b>Наилучшее качество</b> результата</li>
+			<li class="next"><b>Лучший DX</b> из всего, что щупали</li>
+		</ul>
+	</section>
+
+	<!-- ========================= ЛИЦЕНЗИИ ========================= -->
+	<section class="slide">
+		<h2>Оплата лицензий</h2>
+		<p class="lead">Отдельный больной вопрос.</p>
+		<ul>
+			<li>Зарегистрировать зарубежный <b>Team-аккаунт</b> в моменте не получилось — несколько попыток, всё мимо</li>
+			<li class="next">Решение на тот момент: <b class="a">система кешбэков за подписки</b></li>
+		</ul>
+		<p class="note next">Рабочее решение, чтобы не тормозить внедрение.</p>
+	</section>
+
+	<!-- ========================= DIVIDER: МАСШТАБИРОВАНИЕ ========================= -->
+	<section class="slide divider">
+		<h2 class="shout">Масштабирование</h2>
+		<p class="sub">От энтузиастов из клуба — ко всем разработчикам</p>
+	</section>
+
+	<!-- ========================= SHOUT: СКЕПТИКИ ========================= -->
+	<section class="slide">
+		<h2 class="shout">Как пересадить <span class="a">всех</span>,<br>в т.ч. скептиков?</h2>
+	</section>
+
+	<!-- ========================= ТРЕКЕРЫ ========================= -->
+	<section class="slide">
+		<h2>Трекеры</h2>
+		<ul>
+			<li>За каждым инженером закрепили <b>трекера</b></li>
+			<li class="next">Трекеры — это <b>члены AI-клуба</b></li>
+			<li class="next">Раз в месяц собирали <b>статистику по всем</b></li>
+			<li class="next">Большую часть трекинга взяли на себя <b>руководители цехов и тимлиды</b> — они сами были участниками клуба</li>
+		</ul>
+		<p class="note next">Адопшн «прошит» в людей, у которых уже есть авторитет в команде.</p>
+	</section>
+
+	<!-- ========================= ПАРНОЕ ПРОГРАММИРОВАНИЕ ========================= -->
+	<section class="slide">
+		<h2>Парное программирование</h2>
+		<ol>
+			<li>Трекер <b>показывает</b>, как агент реально делает задачу</li>
+			<li class="next">Просит подопечного <b>продолжить</b> — слегка поправляя по ходу</li>
+			<li class="next"><b>Бил по рукам</b>, если тот пытался сделать что-то вручную вместо агента</li>
+			<li class="next">Хватало <b class="a">0.5–1 дня</b>, чтобы пробить скепсис — на своём проекте, на своей задаче</li>
+		</ol>
+		<p class="note next">Убеждает собственная задача, решённая агентом за полдня.</p>
+	</section>
+
+	<!-- ========================= ДВА СКЕПТИКА ========================= -->
+	<section class="slide">
+		<h2>К концу 2025 осталось двое</h2>
+		<ul>
+			<li><b>Опытный инженер.</b> Ценный, с очень жёсткими убеждениями. Был ряд разговоров; под давлением масс — когда все уже вовсю решали задачи через AI — сдался. Со временем стал хорошим адептом.</li>
+			<li class="next"><b>Ленивый разработчик.</b> Просто не хотел даже пробовать. С ним <b>легко расстались</b>.</li>
+		</ul>
+		<p class="note next">Скепсис лечится практикой. С нежеланием даже пробовать — проще расстаться.</p>
+	</section>
+
+	<!-- ========================= 100% ADOPTION ========================= -->
+	<section class="slide">
+		<h2>Начало 2026 — 100% adoption</h2>
+		<p><span class="kpi">100%</span></p>
+		<p class="lead">adoption среди разработчиков</p>
+		<p>Важно при этом:</p>
+		<p class="lead"><b class="a">Вся ответственность за каждую строчку кода остаётся на том, кто его пишет.</b></p>
+	</section>
+
+	<!-- ========================= КЕЙС УДАЛЕНЩИКА ========================= -->
+	<section class="slide">
+		<h2>Кейс удалёнщика</h2>
+		<p>Наняли парня в ноябре — сразу с AI-майндсетом, удалёнка. Задачи вроде решал, но:</p>
+		<ul>
+			<li>Много ошибок на ревью — причём <b>каждый раз новые</b>, не повторялся</li>
+			<li class="next">В <b>коммуникации</b> начали проскакивать странные вещи</li>
+		</ul>
+		<p class="next">Руководитель предложил поработать в паре денёк. <br>
+			(<i>Предложение, от которого нельзя отказаться.</i>)</p>
+
+	</section>
+
+	<!-- ========================= ВЫВОД ПО УДАЛЕНЩИКУ ========================= -->
+	<section class="slide">
+		<h2>Инженер должен понимать свой код</h2>
+		<p>У разработчика оказался <b class="bad">критически слабый инженерный уровень</b>. По факту — прослойка к коду: всё пересылал в Claude и возвращал обратно, не понимая результата.</p>
+		<p class="dim">Справедливости ради — он хорошо работал с memory и натаскивал агента не ошибаться дважды.</p>
+		<p class="lead">Нам нужны <b class="a">инженеры</b>, которые понимают свой код. Если ревью делает только другой человек — смысла в таком операторе нет.</p>
+	</section>
+
+	<!-- ========================= SHOUT: ГЛУБИНА ========================= -->
+	<section class="slide">
+		<h2 class="shout">Что делать<br>с <span class="a">глубиной</span>?</h2>
+	</section>
+
+	<!-- ========================= МАТРИЦА ЗРЕЛОСТИ РАЗРАБОТЧИКА ========================= -->
+	<section class="slide">
+		<h2>Матрица зрелости разработчика</h2>
+		<p>4 уровня. Уровень определялся <b>использованием инженерных практик</b> в работе с агентом.</p>
+		<table class="striped">
+			<tr>
+				<th scope="col">Уровень</th>
+				<th>Что демонстрирует</th>
+				<th>Кешбэк подписки</th>
+			</tr>
+			<tr><th scope="row">L1 · база</th><td>Решает задачи агентом, базовый промптинг</td><td>младшая / средняя</td></tr>
+			<tr><th scope="row">L2</th><td>Контекст, правила, ревью результата</td><td>средняя</td></tr>
+			<tr><th scope="row">L3</th><td>Харнесс, декомпозиция, проверки</td><td>выше средней</td></tr>
+			<tr class="mark"><th scope="row">L4 · макс</th><td>Системная работа с практиками</td><td>макс</td></tr>
+		</table>
+		<p class="note">Подталкивали через трекеров… а потом остановились.</p>
+	</section>
+
+	<!-- ========================= ПОЧЕМУ СВЕРНУЛИ ГЛУБИНУ ========================= -->
+	<section class="slide">
+		<h2>Почему остановили гонку за глубиной</h2>
+		<p class="lead">Поняли: приход <b class="a">SDD</b> и общих скилов во многом <b>закрывает этот слой</b>.</p>
+		<ul>
+			<li><b>Не нужно:</b> глубокое понимание харнесса у <b>каждого</b> разработчика</li>
+			<li class="next"><b>Нужно:</b> <b class="a">платформенный слой</b></li>
+			<li class="next"><b>Нужно:</b> готовый <b class="a">workflow</b>, по которому все просто идут</li>
+		</ul>
+	</section>
+
+	<!-- ========================= DIVIDER: SDD ========================= -->
+	<section class="slide divider">
+		<h2 class="shout">SDD</h2>
+		<p class="sub">Spec-Driven Development как ответ на проблему контекста и разнобоя</p>
+	</section>
+
+	<!-- ========================= ВОПРОС ЗАЛУ: SDD ========================= -->
+	<section class="slide">
+		<div class="ask">
+			<span class="ask-hand" role="img" aria-label="человек с поднятой рукой">🙋</span>
+			<p class="ask-q">Кто использует <span class="a">SDD</span> в работе?</p>
+		</div>
+	</section>
+	<!-- ========================= КАК ПРИШЛИ К SDD ========================= -->
+	<section class="slide">
+		<h2>Как мы пришли к SDD</h2>
+		<p>К SDD мы пришли и с другой стороны. Было очевидно: нужно <b>системно работать с контекстом</b> — а значит, нужны практики и методология.</p>
+		<ul>
+			<li>В индустрии (да и сейчас) многие <b>городят велосипеды</b> — часто без покрытия eval, утверждая, что их велосипед самый правильный</li>
+			<li class="next">Параллельно на нескольких конференциях <b>независимые</b> друг от друга разработчики представили похожую <b class="a">модель зрелости внедрения AI в SDLC</b></li>
+		</ul>
+	</section>
+
+	<!-- ========================= МОДЕЛЬ ЗРЕЛОСТИ AI В SDLC ========================= -->
+	<section class="slide">
+		<h2>Модель зрелости внедрения AI в SDLC</h2>
+		<div class="ladder">
+			<div class="lvl l0"><span>L0</span><b>Классический процесс</b><p>Кодим сами, AI почти нет</p></div>
+			<div class="lvl l1"><span>L1</span><b>Чат-ассистент</b><p>Чат как внешний помощник, автокомплит</p></div>
+			<div class="lvl l2"><span>L2</span><b>Локальные агенты</b><p>Claude Code / Codex под надзором, человек отвечает за результат</p></div>
+			<div class="lvl l3"><span>L3</span><b>Background-агенты</b><p>AI-native, облачный runtime, HITL по требованию</p></div>
+			<div class="lvl l4"><span>L4</span><b>Полная автономность</b><p>E2E-решение, «тёмная фабрика»</p></div>
+		</div>
+		<p class="note">Мы хотим на уровне команды устойчиво выходить на более высокие уровни автономности.</p>
+	</section>
+
+	<!-- ========================= АВТОНОМНОСТЬ → БАС-ФАКТОР ========================= -->
+	<section class="slide">
+		<h2>Автономность снижает бас-фактор</h2>
+		<p class="lead">Логика простая:</p>
+		<ul>
+			<li>Растёт продуктивность → команды потенциально <b>уменьшаются в размере</b></li>
+			<li class="next">Меньше команда → выше риск завязки на конкретных людей</li>
+			<li class="next">Повышение <b class="a">уровня автономности</b> процесса — то, что в том числе <b>уменьшает бас-фактор</b></li>
+		</ul>
+		<p class="note next">Процесс и спеки хранят знание о системе вне голов конкретных инженеров.</p>
+	</section>
+
+	<!-- ========================= КЕЙС СТРАТСЕССИИ — МОСТ ========================= -->
+	<section class="slide">
+		<h2>Кейс стратегической сессии</h2>
+		<p>Попросили руководителей цехов нарисовать, как они видят выход на <b>L3</b>.</p>
+		<p style="text-align:center; margin:10px 0;">
+			<img src="pictures/mosti.jpg" class="next" alt="Мост, который строили с двух сторон, не сошёлся посередине" style="max-height:255px; max-width:90%; border-radius:8px;">
+		</p>
+	</section>
+
+	<!-- ========================= ЕДИНЫЙ ФРЕЙМВОРК ========================= -->
+	<section class="slide">
+		<h2 class="shout">Нужен <span class="a">единый</span><br>фреймворк и платформа</h2>
+	</section>
+
+	<!-- ========================= УПРАВЛЕНЧЕСКАЯ ОШИБКА ========================= -->
+	<section class="slide">
+		<h2>Управленческая ошибка, которую совершают многие</h2>
+		<ul>
+			<li><b class="bad">Каждый внедряет независимо</b> — свои инструменты, свои практики, свой формат</li>
+			<li class="next"><b class="bad">Никто не понимает</b>, что и как делается раньше / дальше по цепочке</li>
+		</ul>
+		<p class="lead next">Ответ для нас — <b class="a">сквозной SDD</b>: единый язык и процесс через всю цепочку SDLC.</p>
+	</section>
+
+	<!-- ========================= ВЫБОР OPENSPEC ========================= -->
+	<section class="slide">
+		<h2>Почему OpenSpec</h2>
+		<ul>
+			<li><b>Простота входа</b> — низкий порог для всех ролей</li>
+			<li class="next"><b>Два состояния контекста из коробки</b> — логи изменений и поддерживаемый источник истины</li>
+			<li class="next"><b>Brownfield как идеология</b> — работа с существующим кодом, в том числе legacy</li>
+			<li class="next"><b>Хороший тренд роста</b> популярности в сообществе — <b class="a">~58k ★</b> на GitHub</li>
+		</ul>
+	</section>
+
+	<!-- ========================= ВОПРОС ЗАЛУ: OPENSPEC ========================= -->
+	<section class="slide">
+		<div class="ask">
+			<span class="ask-hand" role="img" aria-label="человек с поднятой рукой">🙋</span>
+			<p class="ask-q">Кто уже пробовал <span class="a">OpenSpec</span>?</p>
+		</div>
+	</section>
+
+	<!-- ========================= БАЗА OPENSPEC ========================= -->
+	<section class="slide">
+		<h2>База OpenSpec: два состояния контекста</h2>
+		<ul>
+			<li><b class="a">changes/</b> — <b>логи изменений.</b> Активные предложения: что и зачем меняем прямо сейчас</li>
+			<li class="next"><b class="a">specs/</b> — <b>источник истины.</b> Поддерживаемое описание того, как система работает <b>сейчас</b></li>
+		</ul>
+		<p class="lead next">Change живёт, проходит ревью и реализацию → затем <b class="a">вливается в источник истины</b>.</p>
+	</section>
+
+	<!-- ========================= СТРУКТУРА ПАПОК ========================= -->
+	<section class="slide">
+		<h2>Базовые артефакты — структура папок</h2>
+		<pre class="tree"><code>openspec/
+├── project.md            <span class="comment"># контекст проекта, конвенции</span>
+├── specs/                <span class="comment"># ИСТОЧНИК ИСТИНЫ (domains)</span>
+│   └── &lt;domain&gt;/
+│       └── spec.md
+└── changes/              <span class="comment"># активные предложения</span>
+    └── &lt;change-id&gt;/
+        ├── proposal.md   <span class="comment"># смысл: зачем и что</span>
+        ├── design.md     <span class="comment"># ADR / решения</span>
+        ├── tasks.md      <span class="comment"># план реализации</span>
+        └── specs/        <span class="comment"># дельта к источнику истины</span></code></pre>
+	</section>
+
+	<!-- ========================= ЖИЗНЕННЫЙ ЦИКЛ CHANGE ========================= -->
+	<section class="slide">
+		<h2>Жизненный цикл change</h2>
+		<div class="cards">
+			<div class="card"><span class="yr">1</span><b>Propose</b><p>Создаём change: proposal + дельта спеки</p></div>
+			<div class="card"><span class="yr">2</span><b>Validate</b><p>Проверяем согласованность и полноту</p></div>
+			<div class="card"><span class="yr">3</span><b>Implement</b><p>Реализуем по tasks.md агентом</p></div>
+			<div class="card"><span class="yr">4</span><b>Archive</b><p>Вливаем дельту в источник истины</p></div>
+		</div>
+		<p class="note">Один и тот же артефакт ведёт задачу от смысла до прод-кода.</p>
+	</section>
+
+	<!-- ========================= FLOW V1 / V2 ========================= -->
+	<section class="slide">
+		<h2>Flow: кто что делает агентом</h2>
+		<ol>
+			<li>Аналитик/продукт генерит весь change, фокус — на <b>proposal</b> (смысл)</li>
+			<li class="next">Разработчик делает <b>ADR + план реализации</b> агентом на основе proposal</li>
+			<li class="next">Разработчик делает <b>реализацию</b> агентом</li>
+			<li class="next">Тесты:
+				<ul>
+					<li><b>v1:</b> тестировщик пишет тесты и e2e</li>
+					<li class="next"><b>v2:</b> e2e берёт на себя разработчик, юнит-тесты — тестировщик</li>
+				</ul>
+			</li>
+		</ol>
+		<p class="note next">Сдвигаем e2e ближе к разработчику — раньше ловим интеграцию.</p>
+	</section>
+
+	<!-- ========================= ПЛАН ТЕСТИРОВАНИЯ ========================= -->
+	<section class="slide">
+		<h2>План тестирования</h2>
+		<ul>
+			<li>План тестов — <b>часть change</b>, рождается вместе с ним</li>
+			<li class="next">Генерируется агентом из <b>proposal и спеки</b></li>
+			<li class="next">Покрытие на двух уровнях: <b>юнит/интеграция</b> и <b>e2e-сценарии</b></li>
+			<li class="next">Спеки дают <b class="a">проверяемый критерий</b>: тест отвечает на пункт спеки</li>
+		</ul>
+	</section>
+
+	<!-- ========================= ДОКУМЕНТАЦИЯ ДЛЯ СТЕЙКХОЛДЕРОВ ========================= -->
+	<section class="slide">
+		<h2>Документация для стейкхолдеров</h2>
+		<p>Спеки технологичны. Стейкхолдерам нужен <b>человекочитаемый</b> срез.</p>
+		<ul>
+			<li>Источник истины <b>один</b> — спеки; документация <b class="a">генерируется из них</b></li>
+			<li class="next">Не плодим параллельную доку, которая устаревает на второй день</li>
+			<li class="next">Язык описания сценариев — мост между бизнесом и реализацией</li>
+		</ul>
+		<p class="note next">→ отсюда вопрос: на каком языке описывать сценарии?</p>
+	</section>
+
+	<!-- ========================= USECASE VS GHERKIN ========================= -->
+	<section class="slide">
+		<h2>UseCase vs Gherkin</h2>
+		<table class="striped">
+			<tr><th scope="col"></th><th>UseCase</th><th>Gherkin</th></tr>
+			<tr><th scope="row">Аудитория</th><td>Стейкхолдеры, продукт</td><td>Инженеры, автотесты</td></tr>
+			<tr><th scope="row">Форма</th><td>Сценарий «человеческим» языком</td><td>Given / When / Then</td></tr>
+			<tr><th scope="row">Сила</th><td>Понятность, смысл</td><td>Исполнимость</td></tr>
+		</table>
+		<p class="lead">Наш баланс: <b class="a">UseCase</b> — для смысла и стейкхолдеров, <b class="a">Gherkin/e2e</b> — для исполнения.</p>
+	</section>
+
+	<!-- ========================= ПЛАНЫ ========================= -->
+	<section class="slide">
+		<h2>Планы как артефакт</h2>
+		<ul>
+			<li>План реализации (<code>tasks.md</code>) делает <b>агент</b> на основе proposal и ADR</li>
+			<li class="next">План — <b>проверяемый и обозримый</b> список шагов</li>
+			<li class="next">Человек ревьюит <b>план до кода</b> — дешевле поймать ошибку на этом шаге</li>
+			<li class="next">План живёт в change и архивируется вместе с ним</li>
+		</ul>
+	</section>
+
+	<!-- ========================= HARNESS КАК ПЛАТФОРМА ========================= -->
+	<section class="slide">
+		<h2>Платформа — это ваш <span class="a">harness</span></h2>
+		<p class="lead"><b>Harness</b> — слой между человеком и агентом, который задаёт агенту <b class="a">правила игры</b>.</p>
+		<ul>
+			<li>Внутри: инженерные практики, правила, контекст проекта, спеки, готовые команды</li>
+			<li class="next"><b class="a">Версионируемый артефакт</b> — живёт рядом с кодом, под ревью, эволюционирует через change-процесс</li>
+			<li class="next">Агент работает <b>внутри harness</b> — контекст и границы задаёт платформа, а не каждый разработчик заново</li>
+			<li class="next"><b>Глубина переезжает с человека на платформу</b> — порог входа падает, потолок качества растёт</li>
+		</ul>
+	</section>
+
+	<!-- ========================= МАТРИЦА ИНЖЕНЕРНЫХ ПРАКТИК ========================= -->
+	<section class="slide clear" style="padding: 20px 50px;">
+		<table class="prac-matrix">
+			<tr>
+				<th>Практика</th>
+				<th class="col-l2"><span class="lvl-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="1.5" /><path d="M1.5 20h21" /></svg></span>2 уровень<br><span style="font-weight:normal;text-transform:none;letter-spacing:0;font-size:13px;">локальный агент</span></th>
+				<th class="col-l3"><span class="lvl-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="8" width="16" height="12" rx="2" /><path d="M12 8V5" /><circle cx="12" cy="3.5" r="1.2" /><path d="M2 12v4M22 12v4" /><circle cx="9" cy="13.5" r="0.6" fill="currentColor" stroke="none" /><circle cx="15" cy="13.5" r="0.6" fill="currentColor" stroke="none" /></svg></span>3 уровень<br><span style="font-weight:normal;text-transform:none;letter-spacing:0;font-size:13px;">облачный runtime</span></th>
+			</tr>
+			<tr>
+				<td class="prac-name">Сквозной SDD</td>
+				<td class="col-l2"><span class="ptag ptag-base">фундамент</span></td>
+				<td class="col-l3"><span class="ptag ptag-base">фундамент</span></td>
+			</tr>
+			<tr>
+				<td class="prac-name">Quality gates перед merge</td>
+				<td class="col-l2"><span class="ptag ptag-plus">усиливает</span></td>
+				<td class="col-l3"><span class="ptag ptag-must">обязательно</span></td>
+			</tr>
+			<tr>
+				<td class="prac-name">Observability трейсов</td>
+				<td class="col-l2"><span class="ptag ptag-plus">усиливает</span></td>
+				<td class="col-l3"><span class="ptag ptag-must">обязательно</span></td>
+			</tr>
+			<tr>
+				<td class="prac-name">Sandbox: эфемерные окружения + изоляция</td>
+				<td class="col-l2"><span class="ptag ptag-plus">усиливает</span></td>
+				<td class="col-l3"><span class="ptag ptag-must">обязательно</span></td>
+			</tr>
+			<tr>
+				<td class="prac-name">Action Policy / HITL</td>
+				<td class="col-l2"><span class="ptag ptag-plus">ручной HITL</span></td>
+				<td class="col-l3"><span class="ptag ptag-must">обязательно</span></td>
+			</tr>
+			<tr>
+				<td class="prac-name">Evals: автотесты агентов</td>
+				<td class="col-l2"><span class="ptag ptag-plus">усиливает</span></td>
+				<td class="col-l3"><span class="ptag ptag-must">критично</span></td>
+			</tr>
+			<tr>
+				<td class="prac-name">Resource &amp; cost limits</td>
+				<td class="col-l2"><span class="ptag ptag-soft">собирать данные</span></td>
+				<td class="col-l3"><span class="ptag ptag-must">обязательно</span></td>
+			</tr>
+			<tr>
+				<td class="prac-name">Multi-agent coordination</td>
+				<td class="col-l2"><span class="ptag ptag-no">—</span></td>
+				<td class="col-l3"><span class="ptag ptag-must">обязательно</span></td>
+			</tr>
+			<tr>
+				<td class="prac-name">Модельно-независимый harness</td>
+				<td class="col-l2"><span class="ptag ptag-plus">желательно</span></td>
+				<td class="col-l3"><span class="ptag ptag-must">критично</span></td>
+			</tr>
+			<tr>
+				<td class="prac-name">AI Gateway (LLM-прокси)</td>
+				<td class="col-l2"><span class="ptag ptag-plus">усиливает</span></td>
+				<td class="col-l3"><span class="ptag ptag-must">обязательно</span></td>
+			</tr>
+			<tr>
+				<td class="prac-name">Агент с выходом на L3</td>
+				<td class="col-l2"><span class="ptag ptag-no">—</span></td>
+				<td class="col-l3"><span class="ptag ptag-must">обязательно</span></td>
+			</tr>
+			<tr>
+				<td class="prac-name">Agent-first IDP (платформа)</td>
+				<td class="col-l2"><span class="ptag ptag-no">—</span></td>
+				<td class="col-l3"><span class="ptag ptag-must">критично</span></td>
+			</tr>
+		</table>
+	</section>
+
+	<!-- ========================= УЗКОЕ МЕСТО ========================= -->
+	<section class="slide">
+		<h2>Узкое место сместилось</h2>
+		<ul>
+			<li><b>Не всегда и не у всех</b> оно теперь в разработке</li>
+			<li class="next">Часто — в <b class="bad">продакт-менеджменте</b>: бэклог большой, но <b>без DoR</b></li>
+			<li class="next">И в <b class="bad">пути до прода</b> — чтобы докатить изменение до продакшена</li>
+		</ul>
+<!--		<p class="note next">Разогнали разработку — узкое место всплыло раньше и позже по цепочке.</p>-->
+	</section>
+
+	<!-- ========================= ЭФФЕКТ И БЕЙЗЛАЙН ========================= -->
+	<section class="slide">
+		<h2>Эффект и бейзлайн</h2>
+		<p>Эффект честно меряется только относительно <b>зафиксированного бейзлайна</b>.</p>
+		<ul>
+			<li>Бейзлайн оценок у нас <b>уже был</b> — список компонентов с <b>типовыми блоками</b></li>
+			<li class="next">После уверенного адопшена <b>переоценили бейзлайн</b> заново</li>
+			<li class="next">Многие оценки <b class="a">сократились кратно</b></li>
+			<li class="next">Это и есть наш <b>доказанный эффект ускорения</b> — на своих же типовых задачах</li>
+		</ul>
+		<p class="note next">Без бейзлайна любой «иксовый рост» — это маркетинг.</p>
+	</section>
+
+	<!-- ========================= ВЫВОДЫ ========================= -->
+	<section class="slide">
+		<h2>Выводы</h2>
+		<ol>
+			<li class="lead">Внедряйте AI в SDLC <b class="a">сквозным образом</b> — единый процесс через всю цепочку</li>
+			<li class="lead next">Внедряйте <b class="a">SDD</b> — спеки как источник истины и общий язык для людей и агентов</li>
+			<li class="lead next">Стройте свой <b class="a">harness</b> — это движок вашего автомобиля: на нём вы едете и им обгоняете рынок</li>
+		</ol>
+		<p class="note next">Adoption — это про людей и процесс. Инструмент — лишь часть.</p>
+	</section>
+
+	<!-- ========================= THE END ========================= -->
+	<section class="slide divider">
+		<h2 class="shout">Спасибо!</h2>
+		<p class="sub">Вопросы · обмен опытом внедрения AI в SDLC</p>
+	</section>
+
+	<div class="progress"></div>
+
+	<script src="node_modules/@shower/core/dist/index.js"></script>
+
+</body>
+</html>
