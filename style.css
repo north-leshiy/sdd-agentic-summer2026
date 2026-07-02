@@ -1,331 +1,352 @@
-		.shower {
-			--slide-ratio: calc(16 / 9);
-		}
+.shower {
+	--slide-ratio: calc(16 / 9);
+}
 
-		/* ——— Акценты ——— */
-		.slide .a   { color: #0e9466; }
-		.slide .dim { color: #8a8a8a; }
+/* ——— Акценты ——— */
+.slide .a   { color: #6f00ff; }
+.slide .dim { color: #8a8a8a; }
 
-		.slide .tag {
-			display: inline-block;
-			background: #e6f5ec;
-			color: #0f7a57;
-			padding: .12em .6em;
-			border-radius: .4em;
-			font-size: .55em;
-			font-weight: 700;
-			letter-spacing: .06em;
-			text-transform: uppercase;
-			vertical-align: middle;
-		}
+.slide .tag {
+	display: inline-block;
+	background: #f1eafb;
+	color: #5a12c8;
+	padding: .12em .6em;
+	border-radius: .4em;
+	font-size: .55em;
+	font-weight: 700;
+	letter-spacing: .06em;
+	text-transform: uppercase;
+	vertical-align: middle;
+}
 
-		.slide .lead { font-size: 1.15em; line-height: 1.35; }
+.slide .lead { font-size: 1.15em; line-height: 1.35; }
 
-		/* ——— Фоновые макеты Сбер ——— */
-		/* Контентные слайды: белый макет page.svg с кружком для пагинации */
-		.slide {
-			background: #fff url("pictures/page.svg") no-repeat center / cover;
-		}
-		/* Полноэкранные слайды с собственным содержимым (кроме финала) сами задают фон */
-		.slide.clear:not(.endpage) { background-image: none; }
+/* ——— Заголовки: Montserrat bold, чёрный ——— */
+.slide h2 {
+	font-family: 'Montserrat', sans-serif;
+	font-weight: 700;
+	color: #000;
+	font-size: 42px;
+	letter-spacing: -0.01em;
+}
+/* Контентный заголовок поднимаем на уровень кружка пагинации (центр ≈44px) */
+.slide:not(.titlepage):not(.endpage):not(.divider) > h2:first-child {
+	margin-top: -51px;
+}
 
-		/* Обложка */
-		.slide.titlepage {
-			background-image: url("pictures/face.svg");
-			color: #eafaf0;
-		}
-		/* Разделители, финал и «крикливые» слайды — тёмный макет end back.svg */
-		.slide.divider,
-		.slide.endpage,
-		.slide:has(h2.shout) {
-			background-color: #04110d;
-			background-image: url("pictures/end back.svg");
-			color: #eafaf0;
-		}
+/* ——— Фоновые макеты Сбер ——— */
+/* Контентные слайды: белый макет page.svg с кружком для пагинации */
+.slide {
+	background: #fff url("pictures/page.svg") no-repeat center / cover;
+}
+/* Полноэкранные слайды с собственным содержимым (кроме финала) сами задают фон */
+.slide.clear:not(.endpage) { background-image: none; }
 
-		/* ——— Круглый аватар спикера ——— */
-		.speaker { display: flex; align-items: center; gap: 16px; }
-		.speaker .avatar {
-			width: 92px; height: 92px; border-radius: 50%; flex: none;
-			object-fit: cover; object-position: 50% 18%;
-			border: 3px solid rgba(95,208,138,.9);
-			box-shadow: 0 6px 18px rgba(0,0,0,.5);
-		}
-		.speaker b    { display: block; color: #fff; font-size: 28px; line-height: 1.2; }
-		.speaker span { color: #8fd3a8; font-size: 19px; }
+/* Обложка */
+.slide.titlepage {
+	background-image: url("pictures/face.svg");
+	color: #f1eafb;
+}
+/* Разделители, финал и «крикливые» слайды — тёмный макет end back.svg */
+.slide.divider,
+.slide.endpage,
+.slide:has(h2.shout) {
+	background-color: #0a0714;
+	background-image: url("pictures/end back.svg");
+	color: #f1eafb;
+}
+/* Секции-разделители и «крикливые» слайды — чистая абстракция без логотипа */
+.slide.divider,
+.slide:has(h2.shout) {
+	background-image: url("pictures/section.svg");
+}
 
-		/* ——— Обложка ——— */
-		.slide.titlepage .kicker {
-			color: #5fd08a; text-transform: uppercase;
-			letter-spacing: .2em; font-weight: 700;
-			font-size: .6em; margin: 0 0 .5em;
-		}
-		.slide.titlepage h2 {
-			color: #fff; font-size: 1.55em; line-height: 1.08; margin: 0;
-			max-width: 15em; text-shadow: 0 2px 16px rgba(0,0,0,.6);
-		}
-		.slide.titlepage .subtitle { color: #cfeede; font-size: .8em; margin-top: .55em; text-shadow: 0 1px 10px rgba(0,0,0,.5); }
-		.slide.titlepage .speaker { margin-top: 44px; }
+/* ——— Круглый аватар спикера ——— */
+.speaker { display: flex; align-items: center; gap: 16px; }
+.speaker .avatar {
+	width: 92px; height: 92px; border-radius: 50%; flex: none;
+	object-fit: cover; object-position: 50% 18%;
+	border: 3px solid rgba(178,133,224,.9);
+	box-shadow: 0 6px 18px rgba(0,0,0,.5);
+}
+.speaker b    { display: block; color: #fff; font-size: 28px; line-height: 1.2; }
+.speaker span { color: #c2a6e6; font-size: 19px; }
 
-		/* ——— Финальный слайд ——— */
-		.slide.endpage h2 { color: #fff; text-shadow: 0 2px 16px rgba(0,0,0,.6); }
-		.slide.endpage .speaker { margin-top: 26px; }
-		.slide.endpage .tg-contact {
-			display: inline-flex; align-items: center; gap: 9px;
-			margin-top: 24px; font-size: 22px; font-weight: 600; color: #8fd3a8;
-		}
-		.slide.endpage .tg-contact .tg-ico { width: 26px; height: 26px; color: #5fd08a; flex: none; }
+/* ——— Обложка ——— */
+.slide.titlepage .kicker {
+	color: #b285e0; text-transform: uppercase;
+	letter-spacing: .2em; font-weight: 700;
+	font-size: .6em; margin: 0 0 .5em;
+}
+.slide.titlepage h2 {
+	color: #fff; font-size: 1.55em; line-height: 1.08; margin: 0;
+	max-width: 15em; text-shadow: 0 2px 16px rgba(0,0,0,.6);
+}
+.slide.titlepage .subtitle { color: #ddd0ee; font-size: .8em; margin-top: .55em; text-shadow: 0 1px 10px rgba(0,0,0,.5); }
+.slide.titlepage .speaker { margin-top: 44px; }
 
-		/* ——— Разделители секций ——— */
-		.slide h2.shout { font-size: 90px; line-height: 1.1; }
-		.slide.divider h2.shout,
-		.slide:has(h2.shout) h2.shout { color: #fff; text-shadow: 0 2px 20px rgba(0,0,0,.65); }
-		.slide:has(h2.shout) .a { color: #5fd08a; }
-		.slide.divider .sub {
-			position: absolute; left: 100px; right: 100px; bottom: 70px;
-			color: #dff3e5; font-size: .8em; text-align: center;
-			text-shadow: 0 1px 12px rgba(0,0,0,.6);
-		}
+/* ——— Финальный слайд ——— */
+.slide.endpage h2 { color: #fff; text-shadow: 0 2px 16px rgba(0,0,0,.6); }
+.slide.endpage .speaker { margin-top: 40px; align-items: center; gap: 14px; }
+.slide.endpage .speaker .avatar { width: 68px; height: 68px; border-width: 2px; }
+.slide.endpage .speaker b    { font-size: 22px; }
+.slide.endpage .speaker span { font-size: 16px; }
+.slide.endpage .tg-contact {
+	display: flex; align-items: center; gap: 7px;
+	margin-top: 5px; font-size: 17px; font-weight: 600; color: #c2a6e6;
+}
+.slide.endpage .tg-contact .tg-ico { width: 19px; height: 19px; color: #b285e0; flex: none; }
 
-		/* ——— Большая цифра / KPI ——— */
-		.slide .kpi { color: #0e9466; font-weight: 800; font-size: 2.6em; line-height: 1; }
+/* ——— Разделители секций ——— */
+.slide h2.shout { font-size: 68px; line-height: 1.12; }
+.slide.divider h2.shout,
+.slide:has(h2.shout) h2.shout { color: #fff; text-shadow: 0 2px 20px rgba(0,0,0,.65); }
+.slide:has(h2.shout) .a { color: #b285e0; }
+.slide.divider .sub {
+	position: absolute; left: 100px; right: 100px; bottom: 70px;
+	color: #e5d9f6; font-size: .8em; text-align: center;
+	text-shadow: 0 1px 12px rgba(0,0,0,.6);
+}
 
-		/* ——— Карточки-этапы ——— */
-		.slide .cards { display: flex; gap: 18px; margin-top: .3em; }
-		.slide .cards .card {
-			flex: 1; background: #f1f7f3; border-radius: 12px;
-			padding: 18px 20px; border-top: 4px solid #0e9466;
-		}
-		.slide .cards .card b { display: block; color: #0b3d2e; margin-bottom: .25em; line-height: 1.1; }
-		.slide .cards .card .yr { color: #0e9466; font-weight: 700; font-size: .7em; letter-spacing: .04em; }
-		.slide .cards .card p { font-size: .72em; line-height: 1.3; margin: .3em 0 0; }
+/* ——— Большая цифра / KPI ——— */
+.slide .kpi { color: #6f00ff; font-weight: 800; font-size: 2.6em; line-height: 1; }
 
-		/* ——— Лестница зрелости ——— */
-		.slide .ladder { display: flex; gap: 12px; align-items: flex-end; margin-top: .4em; }
-		.slide .ladder .lvl {
-			flex: 1; background: #eef6f0; border-radius: 10px 10px 0 0;
-			padding: 14px 14px 16px; text-align: left; line-height: 1.2;
-		}
-		.slide .ladder .lvl span { color: #0f7a57; font-weight: 800; font-size: .7em; letter-spacing: .05em; }
-		.slide .ladder .lvl b { display: block; font-size: .82em; margin: .15em 0 .3em; line-height: 1.15; }
-		.slide .ladder .lvl p { font-size: .62em; line-height: 1.25; margin: 0; color: #555; }
-		.slide .ladder .lvl.l0 { min-height: 110px; }
-		.slide .ladder .lvl.l1 { min-height: 140px; }
-		.slide .ladder .lvl.l2 { min-height: 170px; }
-		.slide .ladder .lvl.l3 { min-height: 200px; background: #0e9466; }
-		.slide .ladder .lvl.l3 span,
-		.slide .ladder .lvl.l3 b   { color: #fff; }
-		.slide .ladder .lvl.l3 p   { color: #dff3e5; }
-		.slide .ladder .lvl.l4 { min-height: 230px; background: #0b3d2e; }
-		.slide .ladder .lvl.l4 span { color: #8fd3a8; }
-		.slide .ladder .lvl.l4 b   { color: #fff; }
-		.slide .ladder .lvl.l4 p   { color: #cfe9d8; }
+/* ——— Карточки-этапы ——— */
+.slide .cards { display: flex; gap: 18px; margin-top: .3em; }
+.slide .cards .card {
+	flex: 1; background: #f4f1fa; border-radius: 12px;
+	padding: 18px 20px; border-top: 4px solid #6f00ff;
+}
+.slide .cards .card b { display: block; color: #26064f; margin-bottom: .25em; line-height: 1.1; }
+.slide .cards .card .yr { color: #6f00ff; font-weight: 700; font-size: .7em; letter-spacing: .04em; }
+.slide .cards .card p { font-size: .72em; line-height: 1.3; margin: .3em 0 0; }
 
-		/* ——— Вопрос залу ——— */
-		.slide .ask {
-			position: absolute; inset: 0;
-			display: flex; flex-direction: column;
-			align-items: center; justify-content: center; gap: 16px;
-		}
-		.slide .ask .ask-hand { font-size: 160px; line-height: 1; font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif; }
-		.slide .ask .ask-q {
-			margin: 0; text-align: center;
-			font-size: 58px; font-weight: 800; color: #0b3d2e; line-height: 1.1;
-		}
+/* ——— Лестница зрелости ——— */
+.slide .ladder { display: flex; gap: 12px; align-items: flex-end; margin-top: .4em; }
+.slide .ladder .lvl {
+	flex: 1; background: #f2ecfa; border-radius: 10px 10px 0 0;
+	padding: 14px 14px 16px; text-align: left; line-height: 1.2;
+}
+.slide .ladder .lvl span { color: #5a12c8; font-weight: 800; font-size: .7em; letter-spacing: .05em; }
+.slide .ladder .lvl b { display: block; font-size: .82em; margin: .15em 0 .3em; line-height: 1.15; }
+.slide .ladder .lvl p { font-size: .62em; line-height: 1.25; margin: 0; color: #555; }
+.slide .ladder .lvl.l0 { min-height: 110px; }
+.slide .ladder .lvl.l1 { min-height: 140px; }
+.slide .ladder .lvl.l2 { min-height: 170px; }
+.slide .ladder .lvl.l3 { min-height: 200px; background: #6f00ff; }
+.slide .ladder .lvl.l3 span,
+.slide .ladder .lvl.l3 b   { color: #fff; }
+.slide .ladder .lvl.l3 p   { color: #e5d9f6; }
+.slide .ladder .lvl.l4 { min-height: 230px; background: #26064f; }
+.slide .ladder .lvl.l4 span { color: #c2a6e6; }
+.slide .ladder .lvl.l4 b   { color: #fff; }
+.slide .ladder .lvl.l4 p   { color: #ddd0ee; }
 
-		.slide pre.tree { font-size: .62em; line-height: 1.5; }
-		.slide .ok  { color: #0e9466; font-weight: 700; }
-		.slide .bad { color: #c0392b; font-weight: 700; }
+/* ——— Вопрос залу ——— */
+.slide .ask {
+	position: absolute; inset: 0;
+	display: flex; flex-direction: column;
+	align-items: center; justify-content: center; gap: 16px;
+}
+.slide .ask .ask-hand { font-size: 160px; line-height: 1; font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif; }
+.slide .ask .ask-q {
+	margin: 0; text-align: center;
+	font-size: 58px; font-weight: 800; color: #26064f; line-height: 1.1;
+}
 
-		/* ——— Скриншоты сервиса spek ——— */
-		.slide .shot {
-			display: block; margin: 16px auto 0;
-			border: 1px solid #d8e3dc; border-radius: 10px;
-			box-shadow: 0 12px 34px rgba(4,17,13,.16);
-		}
-		.slide .shot-cap { text-align: center; color: #8a8a8a; font-size: .62em; margin: 10px 0 0; }
+.slide pre.tree { font-size: .62em; line-height: 1.5; }
+.slide .ok  { color: #6f00ff; font-weight: 700; }
+.slide .bad { color: #c0392b; font-weight: 700; }
 
-		/* ——— Матрица инженерных практик (из ai-maturity-model) ——— */
-		.prac-matrix { width: 100%; border-collapse: collapse; font-size: 17px; margin-top: 2px; }
-		.prac-matrix th {
-			padding: 5px 12px; text-align: left; font-size: 14px;
-			text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid #d8d8d8;
-		}
-		.prac-matrix th.col-l2 { color: #4b86c2; text-align: center; }
-		.prac-matrix th.col-l3 { color: #6f00ff; text-align: center; }
-		.prac-matrix td { padding: 6px 12px; border-bottom: 1px solid #e3e3e3; vertical-align: middle; line-height: 1.5; }
-		.prac-matrix .prac-name { font-weight: bold; }
-		.prac-matrix .col-l2, .prac-matrix .col-l3 { text-align: center; width: 150px; }
-		.prac-matrix .col-l2 { background: rgba(75, 134, 194, 0.06); }
-		.prac-matrix .col-l3 { background: rgba(111, 0, 255, 0.06); }
-		.prac-matrix .lvl-ico { display: inline-block; vertical-align: -4px; margin-right: 7px; }
-		.prac-matrix .lvl-ico svg { width: 19px; height: 19px; }
-		.ptag {
-			display: inline-block; min-width: 118px; font-size: 13px; font-weight: bold;
-			border-radius: 20px; padding: 2px 10px;
-		}
-		.ptag-no   { color: #b0b0b0; font-weight: normal; }
-		.ptag-soft { background: rgba(75, 134, 194, 0.08); color: #7c9bba; font-weight: normal; }
-		.ptag-plus { background: rgba(75, 134, 194, 0.18); color: #2f6093; }
-		.ptag-must { background: rgba(111, 0, 255, 0.15); color: #6f00ff; }
-		.ptag-base { background: #000000; color: #ffffff; }
+/* ——— Скриншоты сервиса spek ——— */
+.slide .shot {
+	display: block; margin: 16px auto 0;
+	border: 1px solid #ddd8e8; border-radius: 10px;
+	box-shadow: 0 12px 34px rgba(10,7,20,.16);
+}
+.slide .shot-cap { text-align: center; color: #8a8a8a; font-size: .62em; margin: 10px 0 0; }
 
-		/* ——— Список выводов: увеличенные отступы ——— */
-		.slide ol.conclusions { line-height: 1.4; }
-		.slide ol.conclusions > li { margin-top: .9em; }
-		.slide ol.conclusions > li:first-child { margin-top: 0; }
+/* ——— Матрица инженерных практик (из ai-maturity-model) ——— */
+.prac-matrix { width: 100%; border-collapse: collapse; font-size: 17px; margin-top: 2px; }
+.prac-matrix th {
+	padding: 5px 12px; text-align: left; font-size: 14px;
+	text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid #d8d8d8;
+}
+.prac-matrix th.col-l2 { color: #4b86c2; text-align: center; }
+.prac-matrix th.col-l3 { color: #6f00ff; text-align: center; }
+.prac-matrix td { padding: 6px 12px; border-bottom: 1px solid #e3e3e3; vertical-align: middle; line-height: 1.5; }
+.prac-matrix .prac-name { font-weight: bold; }
+.prac-matrix .col-l2, .prac-matrix .col-l3 { text-align: center; width: 150px; }
+.prac-matrix .col-l2 { background: rgba(75, 134, 194, 0.06); }
+.prac-matrix .col-l3 { background: rgba(111, 0, 255, 0.06); }
+.prac-matrix .lvl-ico { display: inline-block; vertical-align: -4px; margin-right: 7px; }
+.prac-matrix .lvl-ico svg { width: 19px; height: 19px; }
+.ptag {
+	display: inline-block; min-width: 118px; font-size: 13px; font-weight: bold;
+	border-radius: 20px; padding: 2px 10px;
+}
+.ptag-no   { color: #b0b0b0; font-weight: normal; }
+.ptag-soft { background: rgba(75, 134, 194, 0.08); color: #7c9bba; font-weight: normal; }
+.ptag-plus { background: rgba(75, 134, 194, 0.18); color: #2f6093; }
+.ptag-must { background: rgba(111, 0, 255, 0.15); color: #6f00ff; }
+.ptag-base { background: #000000; color: #ffffff; }
 
-		/* ——— Стопка слоёв harness: SDD как фундамент ——— */
-		.hstack { max-width: 840px; margin: 10px auto 0; }
-		.hstack .layer-top {
-			display: flex; flex-wrap: wrap; gap: 9px; justify-content: center;
-			padding: 12px 14px 18px;
-			border: 2px dashed #c7e2d0; border-bottom: none;
-			border-radius: 14px 14px 0 0; background: rgba(26,156,58,.04);
-		}
-		.hstack .layer-top .chip {
-			background: #fff; border: 1px solid #cfe3d6; border-radius: 999px;
-			padding: 6px 15px; font-size: 19px; font-weight: 600; color: #2c4a39;
-		}
-		.hstack .layer-cap {
-			text-align: center; font-size: 15px; letter-spacing: .04em;
-			text-transform: uppercase; color: #0f7a57; font-weight: 700; margin: 0 0 3px;
-		}
-		.hstack .layer-base {
-			background: #0b3d2e; color: #fff; border-radius: 0 0 14px 14px;
-			padding: 16px 26px; text-align: center; margin-top: -8px;
-			box-shadow: 0 10px 28px rgba(11,61,46,.22);
-		}
-		.hstack .layer-base b { font-size: 30px; line-height: 1.05; display: block; }
-		.hstack .layer-base b .a { color: #5fd08a; }
-		.hstack .layer-base p { margin: 6px 0 0; font-size: 18px; color: #cfe9d8; }
+/* ——— Список выводов: увеличенные отступы ——— */
+.slide ol.conclusions { line-height: 1.4; }
+.slide ol.conclusions > li { margin-top: .9em; }
+.slide ol.conclusions > li:first-child { margin-top: 0; }
 
-		/* ——— Точечное уменьшение для висячих слов / переполнения ——— */
-		.slide.tight ul, .slide.tight ol { font-size: .9em; }
-		.slide.tight > p { font-size: .94em; }
-		.slide.tight > p.lead { font-size: 1em; }
+/* ——— Стопка слоёв harness: SDD как фундамент ——— */
+.hstack { max-width: 840px; margin: 10px auto 0; }
+.hstack .layer-top {
+	display: flex; flex-wrap: wrap; gap: 9px; justify-content: center;
+	padding: 12px 14px 18px;
+	border: 2px dashed #d8c8ee; border-bottom: none;
+	border-radius: 14px 14px 0 0; background: rgba(111,0,255,.05);
+}
+.hstack .layer-top .chip {
+	background: #fff; border: 1px solid #dccdee; border-radius: 999px;
+	padding: 6px 15px; font-size: 19px; font-weight: 600; color: #382c50;
+}
+.hstack .layer-cap {
+	text-align: center; font-size: 15px; letter-spacing: .04em;
+	text-transform: uppercase; color: #5a12c8; font-weight: 700; margin: 0 0 3px;
+}
+.hstack .layer-base {
+	background: #26064f; color: #fff; border-radius: 0 0 14px 14px;
+	padding: 16px 26px; text-align: center; margin-top: -8px;
+	box-shadow: 0 10px 28px rgba(38,6,79,.22);
+}
+.hstack .layer-base b { font-size: 30px; line-height: 1.05; display: block; }
+.hstack .layer-base b .a { color: #b285e0; }
+.hstack .layer-base p { margin: 6px 0 0; font-size: 18px; color: #ddd0ee; }
 
-		.slide.tighter ul, .slide.tighter ol { font-size: .82em; line-height: 1.32; }
-		.slide.tighter > p.lead { font-size: .98em; }
+/* ——— Точечное уменьшение для висячих слов / переполнения ——— */
+.slide.tight ul, .slide.tight ol { font-size: .9em; }
+.slide.tight > p { font-size: .94em; }
+.slide.tight > p.lead { font-size: 1em; }
 
-		/* ——— Просторный список: больше воздуха между пунктами ——— */
-		.slide.roomy ul { line-height: 1.5; }
-		.slide.roomy ul > li { margin-top: .85em; }
-		.slide.roomy ul > li:first-child { margin-top: 0; }
+.slide.tighter ul, .slide.tighter ol { font-size: .82em; line-height: 1.32; }
+.slide.tighter > p.lead { font-size: .98em; }
 
-		.slide.s-tool > p { font-size: .92em; }
-		.slide.s-tool ul { font-size: .92em; }
-		.slide.s-tool .kpi { font-size: 2em; }
+/* ——— Просторный список: больше воздуха между пунктами ——— */
+.slide.roomy ul { line-height: 1.5; }
+.slide.roomy ul > li { margin-top: .85em; }
+.slide.roomy ul > li:first-child { margin-top: 0; }
 
-		.slide.s-matrix > p { font-size: .92em; }
-		.slide.s-matrix table.striped { font-size: .9em; }
+.slide.s-tool > p { font-size: .92em; }
+.slide.s-tool ul { font-size: .92em; }
+.slide.s-tool .kpi { font-size: 2em; }
 
-		.slide ul.spaced > li { margin-bottom: .5em; }
-		.slide ul.spaced > li:last-child { margin-bottom: 0; }
+.slide.s-matrix > p { font-size: .92em; }
+.slide.s-matrix table.striped { font-size: .9em; }
 
-		/* ——— Карточки скилов ——— */
-		.slide .cards.skills .card { padding: 16px 18px; }
-		.slide .cards.skills .card ul { margin: .35em 0 0; padding-left: 1.05em; list-style: disc; }
-		.slide .cards.skills .card li { font-size: .64em; line-height: 1.32; margin: 0 0 .28em; }
-		.slide .cards.skills .card li::before { content: none; } /* убираем тему-маркер «—», оставляем disc */
-		.slide .cards.skills .card li:last-child { margin-bottom: 0; }
-		.slide .cards.skills .card li b { font-weight: 700; }
-		
-		/* ——— Карточки докладов «Погружение в SDD» ——— */
-		.slide.sdd-talks > h2 { margin-top: -6px; }
-		.talk-cards { display: flex; flex-direction: row; gap: 20px; margin: 10px 0 0; align-items: stretch; }
-		.talk-card {
-			flex: 1 1 0; min-width: 0;
-			display: flex; flex-direction: column;
-			padding: 16px 20px 18px;
-			border: 1px solid #e2e2e2;
-			border-radius: 16px;
-			background: #fafafa;
-			position: relative;
-		}
-		.talk-card.is-soon {
-			border: 2px solid #0e9466;
-			background: #ffffff;
-			box-shadow: 0 8px 26px rgba(14, 148, 102, 0.14);
-		}
-		.talk-card.is-rec {
-			border: 2px solid #d6dbd8;
-			background: #ffffff;
-			box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
-		}
-		.talk-head { display: flex; align-items: center; gap: 12px; margin-bottom: 11px; }
-		.logo-chip {
-			display: inline-flex; align-items: center; justify-content: center;
-			height: 36px; box-sizing: border-box;
-			background: #15171c; border-radius: 8px;
-			padding: 0 12px;
-		}
-		.logo-chip img { height: 21px; width: auto; display: block; }
-		.logo-chip.is-icon img { height: 26px; }
-		.conf-name { font-size: 15px; font-weight: 700; color: #444444; }
-		.flag-tag {
-			align-self: flex-start;
-			display: inline-flex; align-items: center; gap: 6px;
-			font-size: 14px; font-weight: 700;
-			padding: 4px 13px; border-radius: 20px;
-			margin-bottom: 10px;
-			letter-spacing: 0.2px;
-		}
-		.flag-tag svg { width: 15px; height: 15px; }
-		.flag-soon { background: #0e9466; color: #ffffff; }
-		.flag-rec  { background: rgba(0, 0, 0, 0.07); color: #555555; }
-		.talk-title {
-			font-size: 21px; font-weight: 700; line-height: 1.24;
-			min-height: 92px;
-			margin: 0 0 12px; color: #111111;
-		}
-		.talk-bottom { margin-top: auto; }
-		.talk-who-row { display: flex; align-items: center; gap: 13px; }
-		.talk-photo {
-			width: 54px; height: 54px;
-			border-radius: 50%;
-			object-fit: cover;
-			flex: 0 0 auto;
-			box-shadow: 0 2px 8px rgba(0, 0, 0, 0.22);
-		}
-		.talk-who { font-size: 16px; line-height: 1.3; }
-		.talk-who b { display: block; color: #1a1a1a; font-size: 17px; }
-		.talk-who span { color: #666666; }
-		.talk-when { margin-top: 12px; }
-		.talk-when-row { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-top: 14px; }
-		.badge-when {
-			display: inline-block;
-			font-size: 14px; font-weight: 700;
-			padding: 5px 14px; border-radius: 20px;
-			background: rgba(0, 0, 0, 0.07); color: #333333;
-			letter-spacing: 0.3px;
-		}
-		.badge-when.is-soon { background: rgba(14, 148, 102, 0.14); color: #0b6b4c; }
-		.talk-qr {
-			width: 52px; height: 52px; display: block;
-			border-radius: 7px; padding: 3px;
-			background: #ffffff; border: 1px solid #cfe4d9;
-		}
-		.talk-qr-cap { font-size: 10px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: #0b6b4c; text-align: center; margin-top: 3px; line-height: 1; }
-		.talk-qr-wrap { display: flex; flex-direction: column; align-items: center; flex: 0 0 auto; }
+.slide ul.spaced > li { margin-bottom: .5em; }
+.slide ul.spaced > li:last-child { margin-bottom: 0; }
 
-		/* ——— Пагинация: цифра внутри кружка макета page.svg ——— */
-		.slide::after {
-			top: 24px;
-			left: auto;
-			right: 16px;
-			width: 41px;
-			height: 41px;
-			padding: 0;
-			line-height: 41px;
-			background: none;
-			color: #4a4a4a;
-			font-size: 20px;
-			font-weight: 700;
-			text-align: center;
-		}
-		/* На тёмных макетах кружка нет — прячем номер */
-		.slide.titlepage::after,
-		.slide.divider::after,
-		.slide.endpage::after,
-		.slide:has(h2.shout)::after { visibility: hidden; }
+/* ——— Карточки скилов ——— */
+.slide .cards.skills .card { padding: 16px 18px; }
+.slide .cards.skills .card ul { margin: .35em 0 0; padding-left: 1.05em; list-style: disc; }
+.slide .cards.skills .card li { font-size: .64em; line-height: 1.32; margin: 0 0 .28em; }
+.slide .cards.skills .card li::before { content: none; } /* убираем тему-маркер «—», оставляем disc */
+.slide .cards.skills .card li:last-child { margin-bottom: 0; }
+.slide .cards.skills .card li b { font-weight: 700; }
+
+/* ——— Карточки докладов «Погружение в SDD» ——— */
+.slide.sdd-talks > h2 { margin-top: -6px; }
+.talk-cards { display: flex; flex-direction: row; gap: 20px; margin: 10px 0 0; align-items: stretch; }
+.talk-card {
+	flex: 1 1 0; min-width: 0;
+	display: flex; flex-direction: column;
+	padding: 16px 20px 18px;
+	border: 1px solid #e2e2e2;
+	border-radius: 16px;
+	background: #fafafa;
+	position: relative;
+}
+.talk-card.is-soon {
+	border: 2px solid #6f00ff;
+	background: #ffffff;
+	box-shadow: 0 8px 26px rgba(111, 0, 255, 0.12);
+}
+.talk-card.is-rec {
+	border: 2px solid #d6dbd8;
+	background: #ffffff;
+	box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+}
+.talk-head { display: flex; align-items: center; gap: 12px; margin-bottom: 11px; }
+.logo-chip {
+	display: inline-flex; align-items: center; justify-content: center;
+	height: 36px; box-sizing: border-box;
+	background: #15171c; border-radius: 8px;
+	padding: 0 12px;
+}
+.logo-chip img { height: 21px; width: auto; display: block; }
+.logo-chip.is-icon img { height: 26px; }
+.conf-name { font-size: 15px; font-weight: 700; color: #444444; }
+.flag-tag {
+	align-self: flex-start;
+	display: inline-flex; align-items: center; gap: 6px;
+	font-size: 14px; font-weight: 700;
+	padding: 4px 13px; border-radius: 20px;
+	margin-bottom: 10px;
+	letter-spacing: 0.2px;
+}
+.flag-tag svg { width: 15px; height: 15px; }
+.flag-soon { background: #6f00ff; color: #ffffff; }
+.flag-rec  { background: rgba(0, 0, 0, 0.07); color: #555555; }
+.talk-title {
+	font-size: 21px; font-weight: 700; line-height: 1.24;
+	min-height: 92px;
+	margin: 0 0 12px; color: #111111;
+}
+.talk-bottom { margin-top: auto; }
+.talk-who-row { display: flex; align-items: center; gap: 13px; }
+.talk-photo {
+	width: 54px; height: 54px;
+	border-radius: 50%;
+	object-fit: cover;
+	flex: 0 0 auto;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.22);
+}
+.talk-who { font-size: 16px; line-height: 1.3; }
+.talk-who b { display: block; color: #1a1a1a; font-size: 17px; }
+.talk-who span { color: #666666; }
+.talk-when { margin-top: 12px; }
+.talk-when-row { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-top: 14px; }
+.badge-when {
+	display: inline-block;
+	font-size: 14px; font-weight: 700;
+	padding: 5px 14px; border-radius: 20px;
+	background: rgba(0, 0, 0, 0.07); color: #333333;
+	letter-spacing: 0.3px;
+}
+.badge-when.is-soon { background: rgba(111, 0, 255, 0.12); color: #5a12c8; }
+.talk-qr {
+	width: 52px; height: 52px; display: block;
+	border-radius: 7px; padding: 3px;
+	background: #ffffff; border: 1px solid #dccdee;
+}
+.talk-qr-cap { font-size: 10px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: #5a12c8; text-align: center; margin-top: 3px; line-height: 1; }
+.talk-qr-wrap { display: flex; flex-direction: column; align-items: center; flex: 0 0 auto; }
+
+/* ——— Пагинация: цифра внутри кружка макета page.svg ——— */
+.slide::after {
+	top: 24px;
+	left: auto;
+	right: 16px;
+	width: 41px;
+	height: 41px;
+	padding: 0;
+	line-height: 41px;
+	background: none;
+	color: #4a4a4a;
+	font-size: 20px;
+	font-weight: 700;
+	text-align: center;
+}
+/* На тёмных макетах кружка нет — прячем номер */
+.slide.titlepage::after,
+.slide.divider::after,
+.slide.endpage::after,
+.slide:has(h2.shout)::after { visibility: hidden; }
