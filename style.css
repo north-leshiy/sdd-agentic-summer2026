@@ -73,29 +73,34 @@
 .speaker span { color: #c2a6e6; font-size: 19px; }
 
 /* ——— Обложка ——— */
+.slide.titlepage { padding-top: 46px; }
 .slide.titlepage .kicker {
 	color: #b285e0; text-transform: uppercase;
 	letter-spacing: .2em; font-weight: 700;
 	font-size: .6em; margin: 0 0 .5em;
 }
 .slide.titlepage h2 {
-	color: #fff; font-size: 1.55em; line-height: 1.08; margin: 0;
-	max-width: 15em; text-shadow: 0 2px 16px rgba(0,0,0,.6);
+	color: #fff; font-size: 33px; line-height: 1.16; margin: 0;
+	max-width: 500px; text-shadow: 0 2px 16px rgba(0,0,0,.6);
 }
-.slide.titlepage .subtitle { color: #ddd0ee; font-size: .8em; margin-top: .55em; text-shadow: 0 1px 10px rgba(0,0,0,.5); }
-.slide.titlepage .speaker { margin-top: 44px; }
+.slide.titlepage .subtitle { color: #ddd0ee; font-size: .8em; margin-top: .5em; text-shadow: 0 1px 10px rgba(0,0,0,.5); }
+.slide.titlepage .speaker { margin-top: 30px; }
 
 /* ——— Финальный слайд ——— */
 .slide.endpage h2 { color: #fff; text-shadow: 0 2px 16px rgba(0,0,0,.6); }
-.slide.endpage .speaker { margin-top: 40px; align-items: center; gap: 14px; }
-.slide.endpage .speaker .avatar { width: 68px; height: 68px; border-width: 2px; }
-.slide.endpage .speaker b    { font-size: 22px; }
-.slide.endpage .speaker span { font-size: 16px; }
+.slide.endpage .speaker { margin-top: 40px; align-items: center; gap: 16px; }
+.slide.endpage .speaker .avatar { width: 92px; height: 92px; border-width: 2px; }
+.slide.endpage .speaker b    { font-size: 21px; line-height: 1.05; }
+.slide.endpage .speaker span { font-size: 16px; line-height: 1.15; }
 .slide.endpage .tg-contact {
 	display: flex; align-items: center; gap: 7px;
-	margin-top: 5px; font-size: 17px; font-weight: 600; color: #c2a6e6;
+	margin-top: 2px; font-size: 16px; font-weight: 600; color: #c2a6e6; line-height: 1.05;
 }
-.slide.endpage .tg-contact .tg-ico { width: 19px; height: 19px; color: #b285e0; flex: none; }
+.slide.endpage .tg-contact .tg-ico { width: 18px; height: 18px; color: #b285e0; flex: none; }
+.slide.endpage .fb-arrow {
+	position: absolute; top: 34px; left: 600px; width: 210px; height: 105px;
+	filter: drop-shadow(0 2px 6px rgba(0,0,0,.45)); pointer-events: none;
+}
 
 /* ——— Разделители секций ——— */
 .slide h2.shout { font-size: 68px; line-height: 1.12; }
