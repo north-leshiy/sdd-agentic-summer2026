@@ -73,15 +73,16 @@
 .speaker span { color: #c2a6e6; font-size: 19px; }
 
 /* ——— Обложка ——— */
-.slide.titlepage { padding-top: 46px; }
+/* Контент выровнен по левому краю белого текста «Agentic Dev» логотипа (≈176px) */
+.slide.titlepage { padding-top: 46px; padding-left: 150px; }
 .slide.titlepage .kicker {
 	color: #b285e0; text-transform: uppercase;
 	letter-spacing: .2em; font-weight: 700;
 	font-size: .6em; margin: 0 0 .5em;
 }
 .slide.titlepage h2 {
-	color: #fff; font-size: 33px; line-height: 1.16; margin: 0;
-	max-width: 500px; text-shadow: 0 2px 16px rgba(0,0,0,.6);
+	color: #fff; font-size: 29px; line-height: 1.16; margin: 0;
+	max-width: 700px; text-shadow: 0 2px 16px rgba(0,0,0,.6);
 }
 .slide.titlepage .subtitle { color: #ddd0ee; font-size: .8em; margin-top: .5em; text-shadow: 0 1px 10px rgba(0,0,0,.5); }
 .slide.titlepage .speaker { margin-top: 30px; }
