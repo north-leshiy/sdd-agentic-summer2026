@@ -33,6 +33,8 @@
 .slide:not(.titlepage):not(.endpage):not(.divider) > h2:first-child {
 	margin-top: -51px;
 }
+/* Длинные заголовки в одну строку */
+.slide h2.fit { font-size: 34px; }
 
 /* ——— Фоновые макеты Сбер ——— */
 /* Контентные слайды: белый макет page.svg с кружком для пагинации */
@@ -99,22 +101,59 @@
 }
 .slide.endpage .tg-contact .tg-ico { width: 18px; height: 18px; color: #b285e0; flex: none; }
 .slide.endpage .fb-arrow {
-	position: absolute; top: 74px; left: 604px; width: 200px; height: 200px;
+	position: absolute; top: 155px; left: 531px; width: 200px; height: 200px;
 	color: #b285e0; transform: scaleY(-1);
 	filter: drop-shadow(0 2px 6px rgba(0,0,0,.45)); pointer-events: none;
 }
 /* Нижний ряд: QR техлида слева, блок спикера — по центру слайда */
 .slide.endpage .tq { width: 180px; display: block; }
 
-/* ——— Разделители секций ——— */
-.slide h2.shout { font-size: 68px; line-height: 1.12; }
+/* ——— Разделители секций и «крикливые» слайды ——— */
+.slide h2.shout { font-size: 56px; line-height: 1.28; margin: 0; padding: 0; }
 .slide.divider h2.shout,
 .slide:has(h2.shout) h2.shout { color: #fff; text-shadow: 0 2px 20px rgba(0,0,0,.65); }
 .slide:has(h2.shout) .a { color: #b285e0; }
+
+.shower { counter-reset: slide subsection; }
+
+/* ═══ УРОВЕНЬ 1 — РАЗДЕЛ = «обложка главы»: левая колонка, крупный    ═══
+   ═══ заголовок, толстая вертикальная акцент-полоса. Роль — навигация. ═══ */
+.slide.divider h2.shout {
+	left: 100px; right: auto; width: auto; max-width: 580px;
+	font-size: 48px;
+	text-align: left; padding-left: 26px;
+	border-left: 4px solid #6f00ff;
+}
 .slide.divider .sub {
-	position: absolute; left: 100px; right: 100px; bottom: 70px;
-	color: #e5d9f6; font-size: .8em; text-align: center;
+	position: absolute; left: 126px; right: auto; max-width: 520px; bottom: 64px;
+	color: #e5d9f6; font-size: .8em; text-align: left;
 	text-shadow: 0 1px 12px rgba(0,0,0,.6);
+}
+
+/* ═══ УРОВЕНЬ 2 — ПОДРАЗДЕЛ = вложенный шаг: слева крупный порядковый  ═══
+   ═══ номер + заголовок поменьше. Подчинён разделу, но всё ещё веха.    ═══ */
+.slide.subsection { counter-increment: subsection; }
+.slide.subsection h2.shout {
+	left: 100px; right: auto; width: auto; max-width: 620px;
+	font-size: 44px; text-align: left;
+}
+.slide.subsection h2.shout::before {
+	content: counter(subsection, decimal-leading-zero);
+	display: block;
+	font: 800 82px/0.9 'Montserrat', sans-serif;
+	letter-spacing: -0.02em; margin-bottom: 10px;
+	background: linear-gradient(135deg, #8a4dff, #b285e0);
+	-webkit-background-clip: text; background-clip: text;
+	color: transparent; text-shadow: none;
+}
+
+/* ═══ УРОВЕНЬ 3 — SHOUT = «реплика/тезис»: по центру, короткое        ═══
+   ═══ горизонтальное подчёркивание. Роль — эмоциональный акцент.       ═══ */
+.slide:has(h2.shout):not(.divider):not(.subsection) h2.shout::after {
+	content: "";
+	display: block; width: 76px; height: 4px; border-radius: 2px;
+	margin: 30px auto 0;
+	background: linear-gradient(90deg, #6f00ff, #b285e0);
 }
 
 /* ——— Большая цифра / KPI ——— */
@@ -127,8 +166,64 @@
 	padding: 18px 20px; border-top: 4px solid #6f00ff;
 }
 .slide .cards .card b { display: block; color: #26064f; margin-bottom: .25em; line-height: 1.1; }
+.slide .cards .card b code { font: inherit; }
 .slide .cards .card .yr { color: #6f00ff; font-weight: 700; font-size: .7em; letter-spacing: .04em; }
 .slide .cards .card p { font-size: .72em; line-height: 1.3; margin: .3em 0 0; }
+/* опциональный шаг цикла */
+.slide .cards .card.opt { background: #faf8fe; border-top-style: dashed; border-top-color: #b892ff; }
+.slide .cards .card.opt .yr { color: #9a6bff; }
+.slide .cards .card.opt b { color: #4a2a80; }
+
+/* ——— Сравнение фреймворков (звёзды GitHub) ——— */
+.slide .fw-grid { display: flex; gap: 18px; margin-top: .55em; align-items: stretch; }
+.slide .fw {
+	flex: 1; background: #f4f1fa; border-radius: 14px;
+	padding: 22px 22px 20px; border-top: 4px solid #b892ff;
+	position: relative; display: flex; flex-direction: column;
+}
+.slide .fw-name { color: #26064f; font-weight: 700; font-size: 1.05em; line-height: 1.15; }
+.slide .fw-star {
+	color: #6f00ff; font-weight: 800; font-size: 1.9em; line-height: 1;
+	margin: .22em 0 .34em; letter-spacing: -.01em;
+}
+.slide .fw p { font-size: .72em; line-height: 1.32; margin: 0; color: #555; }
+.slide .fw.pick { background: #6f00ff; border-top-color: #26064f; }
+.slide .fw.pick .fw-name,
+.slide .fw.pick .fw-star { color: #fff; }
+.slide .fw.pick p { color: #e5d9f6; }
+.slide .fw-tag {
+	position: absolute; top: -11px; left: 22px;
+	background: #26064f; color: #fff; font-size: .56em; font-weight: 700;
+	letter-spacing: .06em; text-transform: uppercase; padding: .32em .7em; border-radius: .5em;
+}
+
+/* ——— «Почему это работает»: тезисы + эмуляция лога агента ——— */
+.slide .why-work { display: flex; gap: 26px; align-items: flex-start; margin-top: .35em; }
+.slide .why-work .why-reasons { flex: 1 1 42%; margin: 0; align-self: center; font-size: .76em; line-height: 1.34; }
+.slide .why-work .why-reasons li { margin-bottom: .55em; }
+
+.slide .cc-term {
+	flex: 1 1 56%; align-self: stretch;
+	background: #0f0b1a; border: 1px solid rgba(178,133,224,.28); border-radius: 12px;
+	box-shadow: 0 14px 36px rgba(20,6,50,.30); overflow: hidden;
+	font-family: ui-monospace, 'SF Mono', 'Cascadia Code', 'JetBrains Mono', Menlo, Consolas, monospace;
+}
+.slide .cc-bar {
+	display: flex; align-items: center; gap: 8px;
+	padding: 8px 14px; font-size: 12px; letter-spacing: .02em;
+	color: #9a8fb5; background: rgba(255,255,255,.035);
+	border-bottom: 1px solid rgba(178,133,224,.16);
+}
+.slide .cc-glyph { color: #b285e0; font-size: 13px; }
+.slide .cc-log { padding: 14px 16px 15px; font-size: 14px; line-height: 1.5; }
+.slide .cc-log p { margin: 0 0 .3em; }
+.slide .cc-prompt { color: #8a7fa8; margin-bottom: .7em; }
+.slide .cc-step   { color: #ece7f5; margin-top: .5em; }
+.slide .cc-sub    { color: #8f88a3; padding-left: 15px; }
+.slide .cc-dot    { color: #b285e0; margin-right: 5px; }
+.slide .cc-path   { color: #7fd6c4; }
+.slide .cc-ok     { color: #9ae6b4; }
+.slide .cc-cursor { color: #b285e0; margin-left: 2px; }
 
 /* ——— Лестница зрелости ——— */
 .slide .ladder { display: flex; gap: 12px; align-items: flex-end; margin-top: .4em; }
@@ -338,6 +433,190 @@
 }
 .talk-qr-cap { font-size: 10px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: #5a12c8; text-align: center; margin-top: 3px; line-height: 1; }
 .talk-qr-wrap { display: flex; flex-direction: column; align-items: center; flex: 0 0 auto; }
+
+/* ——— Схемы: сквозной SDD vs SDD разработчика ——— */
+/* Слайд — флекс-колонка: заголовок сверху, схема центрируется по вертикали
+   в оставшемся пространстве (не липнет к верху). */
+.slide.s-diagram { display: flex; flex-direction: column; }
+.slide.s-diagram > h2 { margin-bottom: 10px; flex: none; }
+.dgm { display: flex; flex-direction: column; align-items: center; justify-content: center;
+	gap: 13px; flex: 1 1 auto; margin-top: 0; }
+
+/* Полоса внешней системы / источника требований */
+.dgm-ext {
+	display: flex; align-items: center; gap: 16px;
+	width: 100%; max-width: 860px; box-sizing: border-box;
+	padding: 12px 22px; border-radius: 12px;
+}
+.dgm-ext__ico { display: flex; flex: none; }
+.dgm-ext__ico svg { width: 30px; height: 30px; }
+.dgm-ext--bad  .dgm-ext__ico { color: #8a8a8a; }
+.dgm-ext--good .dgm-ext__ico { color: #6f00ff; }
+.dgm-ext b { display: block; font-size: 21px; color: #26064f; line-height: 1.15; }
+.dgm-ext span { font-size: 15px; color: #555; }
+.dgm-ext--bad  { background: #f3f1f4; border: 2px dashed #b9b2c4; }
+.dgm-ext--bad b { color: #4a4a4a; }
+.dgm-ext--good { background: #f4f1fa; border: 2px solid #6f00ff; }
+
+.dgm-down { font-size: 14px; color: #8a8a8a; font-weight: 600; letter-spacing: .02em; }
+
+/* Ряд ролей */
+.dgm-roles { display: flex; align-items: stretch; justify-content: center; gap: 10px; width: 100%; }
+.role {
+	flex: 1 1 0; min-width: 0;
+	background: #fafafa; border: 1px solid #e2e2e2; border-radius: 12px;
+	padding: 13px 14px; text-align: center;
+	display: flex; flex-direction: column; align-items: center; gap: 5px;
+}
+.role__ico { display: flex; }
+.role__ico svg { width: 27px; height: 27px; }
+.role > b { font-size: 18px; color: #1a1a1a; line-height: 1.12; }
+.role > span { font-size: 13.5px; color: #666; line-height: 1.3; }
+
+.role--out { opacity: .8; }
+.role--out .role__ico { color: #8a8a8a; }
+.role--dev { border: 2px solid #c0392b; background: #fff; }
+.role--dev .role__ico { color: #c0392b; }
+.role--in  { border: 2px solid #6f00ff; background: #fff; }
+.role--in  .role__ico { color: #6f00ff; }
+.role--end { border: 2px solid #26064f; background: #26064f; justify-content: center; }
+.role--end .role__ico { color: #fff; }
+.role--end > b { color: #fff; font-size: 17px; }
+
+/* Островной слой спек у разработчика (антипаттерн) */
+.role__sdd {
+	margin-top: 3px; font-size: 12.5px; line-height: 1.3; color: #444;
+	background: #f4f1fa; border-radius: 8px; padding: 7px 9px;
+}
+.sdd-badge {
+	display: inline-block; background: #6f00ff; color: #fff;
+	font-size: 11px; font-weight: 800; letter-spacing: .06em;
+	border-radius: 6px; padding: 2px 7px; margin-bottom: 4px;
+}
+
+/* Команды роли */
+.role__cmd { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-top: 2px; }
+.role__cmd code {
+	background: #26064f; color: #fff; border-radius: 6px;
+	padding: 2px 8px; font-size: 13px; font-weight: 700;
+}
+
+.dgm-arrow { align-self: center; color: #6f00ff; font-size: 26px; font-weight: 800; flex: 0 0 auto; }
+
+/* Обёртка «единая платформа» */
+.sdd-platform {
+	width: 100%; max-width: 900px; box-sizing: border-box;
+	border: 2px solid #6f00ff; border-radius: 16px;
+	background: rgba(111,0,255,.05); padding: 14px 18px 12px;
+}
+.sdd-platform__cap {
+	text-align: center; font-size: 13px; font-weight: 700; letter-spacing: .04em;
+	text-transform: uppercase; color: #5a12c8; margin: 0 0 11px;
+}
+
+/* Quality-gate между ролями */
+.gate {
+	align-self: center; flex: 0 0 auto;
+	background: #2f6093; border: none; color: #fff;
+	border-radius: 12px; padding: 8px 12px; line-height: 1.05;
+	font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: .03em;
+	text-align: center;
+}
+
+/* Строка «тестировщик держит gate» */
+.gate-owner {
+	margin-top: 11px; padding-top: 10px; border-top: 1px dashed #d8c8ee;
+	text-align: center; font-size: 15px; color: #2f6093;
+	display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap;
+}
+.gate-owner b { color: #2f6093; }
+.gate-owner .role__ico { color: #2f6093; }
+.gate-owner .role__ico svg { width: 20px; height: 20px; }
+
+.dgm-note { font-size: 16px; margin: 4px 0 0; text-align: center; }
+.dgm-note--bad  { color: #c0392b; font-weight: 600; }
+.dgm-note--good { color: #5a12c8; font-weight: 600; }
+
+/* Отброшенная идея — перечёркнутый блок роли */
+.role--strike { position: relative; border: 2px dashed #c0392b; background: #fdf3f2; }
+.role--strike > * { opacity: .5; }
+.role--strike .role__ico { color: #c0392b; }
+.role--strike > b { color: #c0392b; }
+.role--strike::after {
+	content: ""; position: absolute; inset: -1px; border-radius: 12px; pointer-events: none;
+	background:
+		linear-gradient(to top right, transparent calc(50% - 1.5px), #c0392b calc(50% - 1.5px), #c0392b calc(50% + 1.5px), transparent calc(50% + 1.5px)),
+		linear-gradient(to bottom right, transparent calc(50% - 1.5px), #c0392b calc(50% - 1.5px), #c0392b calc(50% + 1.5px), transparent calc(50% + 1.5px));
+}
+
+/* Разработчик пишет e2e в одном цикле с кодом */
+.role--loop { box-shadow: 0 0 0 3px rgba(111,0,255,.14); }
+.role > span.role__loop {
+	margin-top: 5px; display: inline-flex; align-items: center; gap: 6px;
+	background: #26064f; color: #fff; border-radius: 999px;
+	padding: 4px 11px; font-size: 12.5px; font-weight: 800; line-height: 1.1;
+}
+.role__loop svg { width: 15px; height: 15px; flex: none; }
+
+/* ——— Tiny team: состав команды ——— */
+.tt-team {
+	width: 100%; max-width: 720px; box-sizing: border-box;
+	border: 2px solid #6f00ff; border-radius: 16px;
+	background: rgba(111,0,255,.05); padding: 16px 20px 18px;
+}
+.tt-team__cap {
+	text-align: center; font-size: 13px; font-weight: 700; letter-spacing: .04em;
+	text-transform: uppercase; color: #5a12c8; margin: 0 0 13px;
+}
+.role .role__badge {
+	display: inline-block; background: #6f00ff; color: #fff;
+	font-size: 11px; font-weight: 800; letter-spacing: .05em; text-transform: uppercase;
+	border-radius: 6px; padding: 3px 10px; margin-top: 4px;
+}
+
+/* ——— Full-cycle инженер вбирает дисциплины ——— */
+.fc-target {
+	align-self: center; display: inline-flex; align-items: center; gap: 12px;
+	background: #26064f; color: #fff; border-radius: 14px; padding: 12px 28px;
+	box-shadow: 0 10px 28px rgba(38,6,79,.22);
+}
+.fc-target .role__ico { color: #fff; }
+.fc-target .role__ico svg { width: 26px; height: 26px; }
+.fc-target b { font-size: 23px; line-height: 1.1; }
+
+.dgm-up { font-size: 14px; color: #8a8a8a; font-weight: 600; letter-spacing: .02em; text-align: center; }
+
+.role .role__stat {
+	margin-top: 5px; display: inline-flex; align-items: center; gap: 5px;
+	border-radius: 999px; padding: 3px 11px;
+	font-size: 12.5px; font-weight: 800; line-height: 1.1;
+}
+.role .role__stat svg { width: 14px; height: 14px; flex: none; }
+.role .role__stat.is-ok { background: #6f00ff; color: #fff; }
+.role .role__stat.is-q  { background: #f5c542; color: #5a3d00; }
+.role .role__stat.is-q b { font-size: 15px; font-weight: 900; }
+.role .role__extra {
+	margin-top: 5px; font-size: 11.5px; font-weight: 700; color: #5a12c8;
+	background: #f1eafb; border-radius: 6px; padding: 2px 9px; line-height: 1.15;
+}
+
+/* ——— Переходный период: делим план и катим двумя /apply ——— */
+.tp-split { display: flex; align-items: center; gap: 30px; margin-top: 12px; }
+.slide pre.tree.tp-plan {
+	flex: 0 0 auto; margin: 0;
+	background: #faf8fe; border: 1px solid #e3d9f5; border-radius: 12px;
+	padding: 14px 22px; font-size: .58em; line-height: 1.42;
+}
+.tp-file { color: #8a8a8a; }
+.tp-h { color: #6f00ff; font-weight: 800; }
+.tp-flow { display: flex; align-items: center; gap: 22px; }
+.tp-arrow { color: #6f00ff; font-size: 40px; font-weight: 800; flex: none; }
+.tp-cmds { display: flex; flex-direction: column; align-items: flex-start; gap: 13px; }
+.tp-cmds code {
+	background: #26064f; color: #fff; border-radius: 10px;
+	padding: 10px 20px; font-size: 24px; font-weight: 700;
+}
+.tp-note { font-size: 15px; color: #555; line-height: 1.35; margin: 6px 0 0; max-width: 270px; }
 
 /* ——— Пагинация: цифра внутри кружка макета page.svg ——— */
 .slide::after {
