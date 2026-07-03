@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<title>AI в SDLC: путь к 100% adoption и сквозному SDD</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="icon" type="image/png" href="pictures/favicon.png">
+	<link rel="apple-touch-icon" href="pictures/apple-touch-icon.png">
+	<link rel="shortcut icon" href="pictures/favicon.ico">
+	<link rel="stylesheet" href="shower/themes/ribbon/styles/index.css">
+	<link rel="stylesheet" href="fonts/montserrat.css">
+	<link rel="stylesheet" href="style.css">
+</head>
+<body class="shower list">
+
+	<header class="caption">
+		<h1>Spec-Driven Development через все роли команды: как мы внедрили единый процесс в монолит с 10-летней историей</h1>
+		<p>Доклад · 2026</p>
+	</header>
+
+	<!-- ========================= ОБЛОЖКА ========================= -->
+	<section class="slide titlepage">
+		<h2>Spec-Driven Development через все роли команды:<br>как мы внедрили единый процесс <br> в монолит с <span style="white-space:nowrap">10-летней</span> историей</h2>
+
+		<br>
+		<div class="speaker">
+			<img class="avatar" src="pictures/speaker.png" alt="Иван Поддубный">
+			<div>
+				<b>Иван Поддубный</b>
+				<span>CTO Вебпрактик</span>
+			</div>
+		</div>
+	</section>
+
+	<!-- ========================= КТО Я ========================= -->
+	<section class="slide light">
+		<h2>Кто я</h2>
+		<ol>
+			<li>15+ лет в IT. Прошёл путь fullstack → teamlead → CTO</li>
+			<li class="next">CTO в Вебпрактик (150+)</li>
+			<li class="next">Программный комитет: AgenticDevConf, TechLead Conf, CTO Conf, Podlodka Crew, ПыхКонф</li>
+			<li class="next">Организатор ростовских сообществ аналитиков и разработчиков</li>
+			<li class="next">Трансформирую SDLC-процессы 1,5 года:
+				<ul>
+					<li>Получил 100% adoption среди разработчиков ещё в 2025</li>
+					<li class="next"><b>Масштабирую</b> сквозной SDD-процесс на все команды</li>
+				</ul>
+			</li>
+		</ol>
+	</section>
+
+	<!-- ========================= ВЕБПРАКТИК ========================= -->
+	<section class="slide clear" style="padding:0; overflow:hidden;">
+		<img src="pictures/clients.svg" alt="Логотипы клиентов Вебпрактик — крупные корпорации"
+			 style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover;">
+		<h2 style="position:absolute; top:40px; left:60px; right:60px; margin:0; z-index:2; font-size:30px;">Вебпрактик — <span class="a">веб-интегратор</span> для корпораций</h2>
+	</section>
+
+	<!-- ========================= О ЧЁМ ПОГОВОРИМ ========================= -->
+	<section class="slide roomy">
+		<h2>О чём поговорим</h2>
+		<ul>
+			<li>Расскажу про <b>две дороги</b>, которыми мы пришли к сквозному <b class="a">SDD</b></li>
+			<li class="next"><b class="a">SDD</b> как ответ на хаос контекста и разнобой практик</li>
+			<li class="next">Как устроен наш процесс на <b>OpenSpec</b></li>
+			<li class="next">Куда <b>сместилось узкое место</b></li>
+		</ul>
+	</section>
+
+	<!-- ========================= ЧТО ТАКОЕ SDD ========================= -->
+	<section class="slide roomy">
+		<h2>Что такое <span class="a">SDD</span></h2>
+		<p class="lead"><b>Spec-Driven Development</b> — подход, где <b class="a">спецификация</b> становится единственным источником истины.</p>
+		<p class="lead">Сначала фиксируем намерение в спеке — из неё рождается <b>код</b>, <b>тесты</b> и <b>задачи</b>.</p>
+	</section>
+
+	<!-- ========================= ОПРОС: КТО ИСПОЛЬЗУЕТ SDD ========================= -->
+	<section class="slide">
+		<h2><span role="img" aria-label="человек с поднятой рукой" style='font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;'>🙋</span> Кто использует <span class="a">SDD</span></h2>
+		<p class="lead">Поднимите руку, если это про вас:</p>
+		<ul>
+			<li>Кто уже <b class="a">юзает SDD</b> и пришёл узнать опыт коллег?</li>
+			<li class="next">У кого SDD встроен не только в <b>разработчиков</b>, но и в <b class="a">аналитиков / продуктов и QA</b>?</li>
+			<li class="next">А кто пришёл <b>познакомиться</b> с тем, что это такое?</li>
+		</ul>
+	</section>
+
+	<section class="slide divider">
+		<h2 class="shout">Как мы пришли к SDD</h2>
+	</section>
+
+
+	<!-- ========================= ДВЕ ДОРОГИ К SDD ========================= -->
+	<section class="slide">
+		<h2>Две истории</h2>
+		<ol>
+			<li>Через глубину adoption</li>
+			<li>Через ошибку на проектировании уровня автономности</li>
+		</ol>
+	</section>
+
+	<section class="slide subsection">
+		<h2 class="shout">История первая</h2>
+	</section>
+
+	<!-- ========================= ВОПРОСЫ ЗАЛУ ========================= -->
+	<section class="slide">
+		<h2><span role="img" aria-label="человек с поднятой рукой" style='font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;'>🙋</span> Вопросы залу про adoption</h2>
+		<p class="lead">Поднимите руку, если это про вас:</p>
+		<ul>
+			<li>Кто тут <b>тимлид и выше</b>?</li>
+			<li class="next">У кого адопшен в <b>разработчиков &gt; 50%</b>?</li>
+			<li class="next">У кого адопшен <b class="a">100%</b>?</li>
+			<li class="next">А у кого адопшен в <b>аналитиков и QA &gt; 50%</b>?</li>
+		</ul>
+	</section>
+
+	<section class="slide">
+		<h2 class="shout">К концу 2025 года мы через путь терний пришли к 100% adoption <b>среди разработчиков</b></h2>
+	</section>
+
+
+	<section class="slide">
+		<h2>Кратко о пути до 100% adoption <br> среди разработчиков</h2>
+		<ul>
+			<li>Мы создали AI-клуб энтузиастов <br> (начали с 15, потом расширился до 22 человек) </li>
+			<li class="next">На регулярных сходках клуба отресерчили стек, модели, основу harness</li>
+			<li class="next">Назначили всем инженерам трекеров из клуба</li>
+			<li class="next">При помощи парного программирования довели до 95% среди разрабов</li>
+			<li class="next">Оставшиеся 5% добили кадровыми решениями</li>
+		</ul>
+	</section>
+
+
+
+	<section class="slide">
+		<h2 class="shout">Ширина есть. <br>Как теперь качать глубину используемых практик?</h2>
+	</section>
+
+	<!-- ========================= МАТРИЦА ЗРЕЛОСТИ РАЗРАБОТЧИКА ========================= -->
+	<section class="slide s-matrix">
+		<h2>Матрица зрелости разработчика</h2>
+		<p>4 уровня. Уровень определялся <b>использованием инженерных практик</b> в работе с агентом.</p>
+		<table class="striped">
+			<tr>
+				<th scope="col">Уровень</th>
+				<th>Что демонстрирует</th>
+				<th>Кешбэк подписки</th>
+			</tr>
+			<tr><th scope="row">L1 · база</th><td>Решает задачи агентом, базовый промптинг</td><td>младшая / средняя</td></tr>
+			<tr><th scope="row">L2</th><td>Контекст, правила, ревью результата</td><td>средняя</td></tr>
+			<tr><th scope="row">L3</th><td>Харнесс, декомпозиция, проверки</td><td>выше средней</td></tr>
+			<tr class="mark"><th scope="row">L4 · макс</th><td>Системная работа с практиками</td><td>макс</td></tr>
+		</table>
+		<p class="note">Подталкивали через трекеров… а потом остановились.</p>
+	</section>
+
+	<!-- ========================= ПОЧЕМУ СВЕРНУЛИ ГЛУБИНУ ========================= -->
+	<section class="slide tight">
+		<h2 class="fit">Почему остановили гонку за глубиной</h2>
+		<p class="lead">Поняли: приход <b class="a">SDD</b> и общих скилов во многом <b>закрывает этот слой</b>.</p>
+		<ul>
+			<li><b>Не нужно:</b> глубокое понимание харнесса у <b>каждого</b> разработчика</li>
+			<li class="next"><b>Нужно:</b> <b class="a">платформенный слой</b></li>
+			<li class="next"><b>Нужно:</b> готовый <b class="a">workflow</b>, по которому все просто идут</li>
+		</ul>
+	</section>
+
+	<!-- ========================= ПОДРАЗДЕЛ: ИСТОРИЯ ВТОРАЯ ========================= -->
+	<!-- TODO(нарратив): сюжет истории 2 (автономность → бас-фактор → мост →
+	     единый фреймворк) сейчас лежит НИЖЕ, после разделов «SDD» и «Предыстория».
+	     Возможно, стоит перенести этот блок сюда или опустить раздел «SDD». -->
+	<section class="slide subsection">
+		<h2 class="shout">История вторая</h2>
+	</section>
+
+	<!-- ========================= DIVIDER: SDD ========================= -->
+	<section class="slide divider">
+		<h2 class="shout">SDD</h2>
+		<p class="sub">Spec-Driven Development как ответ на проблему контекста и разнобоя</p>
+	</section>
+
+	<section class="slide divider">
+		<h2 class="shout">Предыстория про матрицу зрелости</h2>
+	</section>
+
+	<!-- ========================= МОДЕЛЬ ЗРЕЛОСТИ AI В SDLC ========================= -->
+	<section class="slide clear" style="background:#000;">
+		<img src="pictures/fabrica.png" class="cover" alt="Модель зрелости внедрения AI в SDLC: уровни 0–4 (без AI → AI-чат → локальный агент → background-агент → полная автономность) для аналитика, разработчика и QA">
+	</section>
+
+	<!-- ========================= АВТОНОМНОСТЬ → БАС-ФАКТОР ========================= -->
+	<section class="slide">
+		<h2>Автономность снижает бас-фактор</h2>
+		<p class="lead">Логика простая:</p>
+		<ul>
+			<li>Растёт продуктивность → команды потенциально <b>уменьшаются в размере</b></li>
+			<li class="next">Меньше команда → выше риск завязки на конкретных людей</li>
+			<li class="next">Повышение <b class="a">уровня автономности</b> процесса — то, что в том числе <b>уменьшает бас-фактор</b></li>
+		</ul>
+	</section>
+
+	<!-- ========================= КЕЙС СТРАТСЕССИИ — МОСТ ========================= -->
+	<section class="slide">
+		<h2>Кейс стратегической сессии</h2>
+		<p>Попросили руководителей цехов нарисовать, как они видят выход на <b>L3</b>.</p>
+		<p style="text-align:center; margin:10px 0;">
+			<img src="pictures/mosti.jpg" class="next" alt="Мост, который строили с двух сторон, не сошёлся посередине" style="max-height:255px; max-width:90%; border-radius:8px;">
+		</p>
+	</section>
+
+	<!-- ========================= ЕДИНЫЙ ФРЕЙМВОРК ========================= -->
+	<section class="slide">
+		<h2 class="shout">Нужен <span class="a">единый</span><br>фреймворк и платформа</h2>
+	</section>
+
+
+	<!-- ========================= УПРАВЛЕНЧЕСКАЯ ОШИБКА ========================= -->
+	<section class="slide tight">
+		<h2>Управленческая ошибка, которую совершают многие</h2>
+		<ul>
+			<li><b class="bad">Каждый внедряет независимо</b> — свои инструменты, свои практики, свой формат</li>
+			<li class="next"><b class="bad">Никто не понимает</b>, что и как делается раньше / дальше по цепочке</li>
+		</ul>
+		<p class="lead next">Ответ для нас — <b class="a">сквозной SDD</b>: единый язык и процесс через всю цепочку SDLC.</p>
+	</section>
+
+	<!-- ========================= SECTION: ВЫБОР ФРЕЙМВОРКА ========================= -->
+	<section class="slide divider">
+		<h2 class="shout">Выбор фреймворка</h2>
+		<p class="sub">Из чего выбирали инструмент для сквозного SDD — и на чём остановились</p>
+	</section>
+
+	<!-- ========================= ТИПОВЫЕ ФРЕЙМВОРКИ SDD ========================= -->
+	<section class="slide">
+		<h2>Из чего выбирали</h2>
+		<p class="lead">Типовые фреймворки сквозного SDD и их популярность на GitHub<sup>*</sup>:</p>
+		<div class="fw-grid">
+			<div class="fw">
+				<b class="fw-name">GitHub Spec Kit</b>
+				<span class="fw-star">★ ~90k</span>
+				<p>Флагман от GitHub, широкая дистрибуция и экосистема</p>
+			</div>
+			<div class="fw">
+				<b class="fw-name">BMAD-METHOD</b>
+				<span class="fw-star">★ ~49k</span>
+				<p>Агентные роли, «команда агентов» на весь цикл</p>
+			</div>
+			<div class="fw pick">
+				<span class="fw-tag">наш выбор</span>
+				<b class="fw-name">OpenSpec</b>
+				<span class="fw-star">★ ~58k</span>
+				<p>Простой вход, два состояния контекста, brownfield-идеология</p>
+			</div>
+		</div>
+		<p class="note"><sup>*</sup> порядок звёзд GitHub, середина 2026 — цифры ориентировочные.</p>
+	</section>
+
+	<!-- ========================= ВЫБОР OPENSPEC ========================= -->
+	<section class="slide tight">
+		<h2>Почему OpenSpec</h2>
+		<ul>
+			<li><b>Простота входа</b> — низкий порог для всех ролей</li>
+			<li class="next"><b>Два состояния контекста из коробки</b> — логи изменений и поддерживаемый источник истины</li>
+			<li class="next"><b>Brownfield как идеология</b> — работа с существующим кодом, в том числе legacy</li>
+			<li class="next"><b>Хороший тренд роста</b> популярности в сообществе — <b class="a">~58k ★</b> на GitHub</li>
+		</ul>
+	</section>
+
+	<!-- ========================= ВОПРОС ЗАЛУ: OPENSPEC ========================= -->
+	<section class="slide">
+		<div class="ask">
+			<span class="ask-hand" role="img" aria-label="человек с поднятой рукой">🙋</span>
+			<p class="ask-q">Кто уже пробовал <span class="a">OpenSpec</span>?</p>
+		</div>
+	</section>
+
+	<!-- ========================= DIVIDER: ЛИКБЕЗ ПО ОСНОВАМ ========================= -->
+	<section class="slide divider">
+		<h2 class="shout">Основы OpenSpec<br>на пальцах</h2>
+		<p class="sub">Два состояния контекста, артефакты change и его жизненный цикл</p>
+	</section>
+
+	<!-- ========================= БАЗА OPENSPEC ========================= -->
+	<section class="slide">
+		<h2>База OpenSpec:<br>два состояния контекста</h2>
+		<ul>
+			<li><b class="a">changes/</b> — <b>логи изменений.</b> Активные предложения: что и зачем меняем прямо сейчас</li>
+			<li class="next"><b class="a">specs/</b> — <b>источник истины.</b> Поддерживаемое описание того, как система работает <b>сейчас</b></li>
+		</ul>
+		<p class="lead next">Change живёт, проходит ревью и реализацию → затем <b class="a">вливается в источник истины</b>.</p>
+	</section>
+
+	<!-- ========================= СТРУКТУРА ПАПОК ========================= -->
+	<section class="slide">
+		<h2>Базовые артефакты — структура папок</h2>
+		<pre class="tree"><code>openspec/
+├── specs/                <span class="comment"># ИСТОЧНИК ИСТИНЫ (domains)</span>
+│   └── &lt;domain&gt;/
+│       └── spec.md
+└── changes/              <span class="comment"># активные предложения</span>
+    └── &lt;change-id&gt;/
+        ├── proposal.md   <span class="comment"># смысл: зачем и что</span>
+        ├── design.md     <span class="comment"># ADR / решения</span>
+        ├── tasks.md      <span class="comment"># план реализации</span>
+        └── specs/        <span class="comment"># дельта к источнику истины</span></code></pre>
+	</section>
+
+	<!-- ========================= ЖИЗНЕННЫЙ ЦИКЛ CHANGE ========================= -->
+	<section class="slide">
+		<h2>Жизненный цикл change</h2>
+		<div class="cards">
+			<div class="card opt"><span class="yr">опционально</span><b><code>explore</code></b><p>Прожарить идею: собрать контекст, накидать варианты. Аналог <b>/grillme</b> и <b>/brainstorm</b></p></div>
+			<div class="card"><span class="yr">1</span><b><code>propose</code></b><p>Создаём change: proposal + дельта спеки</p></div>
+			<div class="card"><span class="yr">2</span><b><code>apply</code></b><p>Реализуем change агентом по tasks</p></div>
+			<div class="card"><span class="yr">3</span><b><code>archive</code></b><p>Вливаем дельту в источник истины</p></div>
+		</div>
+		<p class="note"><b>propose → apply → archive</b> — база. Один и тот же артефакт ведёт задачу от смысла до прод-кода.</p>
+	</section>
+
+	<!-- ========================= DIVIDER: СКВОЗНОЙ SDD VS SDD РАЗРАБОТЧИКА ========================= -->
+	<section class="slide divider">
+		<h2 class="shout">Сквозной SDD<br>vs SDD разработчика</h2>
+		<p class="sub">Многие внедряют SDD только в разработку. Но основной профит — в сквозном внедрении.</p>
+	</section>
+
+	<!-- ========================= СХЕМА 1: АНТИПАТТЕРН ========================= -->
+	<section class="slide s-diagram">
+		<h2 class="fit">Антипаттерн: <span class="bad">SDD только в разработке</span></h2>
+		<div class="dgm">
+			<div class="dgm-ext dgm-ext--bad">
+				<span class="dgm-ext__ico" role="img" aria-label="документ"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M8 13h8M8 17h6"/></svg></span>
+				<div>
+					<b>Jira / Confluence</b>
+					<span>спецификация во внешней системе — источник требований</span>
+				</div>
+			</div>
+
+			<div class="dgm-down">↓ требования падают тикетами и текстом ↓</div>
+
+			<div class="dgm-roles">
+				<div class="role role--out">
+					<span class="role__ico" role="img" aria-label="аналитик"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.3.3.5.7.5 1.1v.5h6v-.5c0-.4.2-.8.5-1.1A6 6 0 0 0 12 3z"/></svg></span>
+					<b>Аналитик / продукт</b>
+					<span>пишет требования в Jira/Confluence</span>
+				</div>
+
+				<div class="dgm-arrow">→</div>
+
+				<div class="role role--dev">
+					<span class="role__ico" role="img" aria-label="разработчик"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m8 8-4 4 4 4"/><path d="m16 8 4 4-4 4"/><path d="m13.5 6-3 12"/></svg></span>
+					<b>Разработчик</b>
+					<div class="role__sdd">
+						<span class="sdd-badge">SDD</span>
+						генерит <b>свой слой спек</b> только под себя
+					</div>
+				</div>
+
+				<div class="dgm-arrow">→</div>
+
+				<div class="role role--out">
+					<span class="role__ico" role="img" aria-label="тестировщик"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg></span>
+					<b>Тестировщик</b>
+					<span>вне SDD, свои сценарии</span>
+				</div>
+			</div>
+
+			<p class="dgm-note dgm-note--bad">SDD живёт <b>островом</b> у разработчика · требования дублируются · трассировка рвётся</p>
+		</div>
+	</section>
+
+	<!-- ========================= СХЕМА 2: СКВОЗНОЙ SDD ========================= -->
+	<section class="slide s-diagram">
+		<h2>Сквозной SDD: <span class="a">одна платформа на всю команду</span></h2>
+		<div class="dgm">
+			<div class="dgm-ext dgm-ext--good">
+				<span class="dgm-ext__ico" role="img" aria-label="репозиторий"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8v8a2 2 0 0 1-1 1.73l-7 4a2 2 0 0 1-2 0l-7-4A2 2 0 0 1 3 16V8a2 2 0 0 1 1-1.73l7-4a2 2 0 0 1 2 0l7 4A2 2 0 0 1 21 8z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg></span>
+				<div>
+					<b>Спеки в том же репозитории</b>
+					<span>единый источник истины вместо Jira / Confluence</span>
+				</div>
+			</div>
+
+			<div class="sdd-platform">
+				<p class="sdd-platform__cap">единая SDD-платформа · аналитик · разработчик · тестировщик</p>
+
+				<div class="dgm-roles">
+					<div class="role role--in">
+						<span class="role__ico" role="img" aria-label="аналитик"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.3.3.5.7.5 1.1v.5h6v-.5c0-.4.2-.8.5-1.1A6 6 0 0 0 12 3z"/></svg></span>
+						<b>Аналитик</b>
+						<div class="role__cmd"><code>/explore</code><code>/propose</code></div>
+					</div>
+
+					<div class="gate">quality<br>gate</div>
+
+					<div class="role role--in">
+						<span class="role__ico" role="img" aria-label="разработчик"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m8 8-4 4 4 4"/><path d="m16 8 4 4-4 4"/><path d="m13.5 6-3 12"/></svg></span>
+						<b>Разработчик</b>
+						<div class="role__cmd"><code>/apply</code></div>
+					</div>
+
+					<div class="gate">quality<br>gate</div>
+
+					<div class="role role--end">
+						<span class="role__ico" role="img" aria-label="merge / prod"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M6 21V9a9 9 0 0 0 9 9"/></svg></span>
+						<b>merge / prod</b>
+					</div>
+				</div>
+
+				<div class="gate-owner">
+					<span class="role__ico" role="img" aria-label="тестировщик"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg></span>
+					<span><b>Тестировщик</b> держит <b>quality gate</b> после аналитика и после разработчика</span>
+				</div>
+			</div>
+
+			<p class="dgm-note dgm-note--good">Одни спеки, один язык, сквозная трассировка — <b>основной профит именно здесь</b></p>
+		</div>
+	</section>
+
+	<!-- ========================= СХЕМА 3: ОШИБКА С E2E (V1) ========================= -->
+	<section class="slide s-diagram">
+		<h2>Ошибка:<br><span class="bad">пережиток старого мышления</span></h2>
+		<div class="dgm">
+			<div class="sdd-platform">
+				<p class="sdd-platform__cap">v1 · как мы сначала думали делать e2e</p>
+
+				<div class="dgm-roles">
+					<div class="role role--in">
+						<span class="role__ico" role="img" aria-label="аналитик"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.3.3.5.7.5 1.1v.5h6v-.5c0-.4.2-.8.5-1.1A6 6 0 0 0 12 3z"/></svg></span>
+						<b>Аналитик</b>
+						<div class="role__cmd"><code>/explore</code><code>/propose</code></div>
+					</div>
+
+					<div class="gate">quality<br>gate</div>
+
+					<div class="role role--in">
+						<span class="role__ico" role="img" aria-label="разработчик"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m8 8-4 4 4 4"/><path d="m16 8 4 4-4 4"/><path d="m13.5 6-3 12"/></svg></span>
+						<b>Разработчик</b>
+						<div class="role__cmd"><code>/apply</code></div>
+					</div>
+
+					<div class="role role--strike">
+						<span class="role__ico" role="img" aria-label="тестировщик"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg></span>
+						<b>Тестировщик</b>
+						<span>пишет e2e автотесты<br>отдельным скилом</span>
+					</div>
+
+					<div class="role role--end">
+						<span class="role__ico" role="img" aria-label="merge / prod"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M6 21V9a9 9 0 0 0 9 9"/></svg></span>
+						<b>merge / prod</b>
+					</div>
+				</div>
+			</div>
+
+			<p class="dgm-note dgm-note--bad">Думали, что <b>e2e</b> напишут тестировщики отдельным шагом — а это <b>разрывает цикл</b> «код ↔ тесты»</p>
+		</div>
+	</section>
+
+	<!-- ========================= СХЕМА 4: E2E В ОДНОМ ЦИКЛЕ (V2) ========================= -->
+	<section class="slide s-diagram">
+		<h2 class="fit">Правильно: <span class="a">e2e в одном цикле с кодом</span></h2>
+		<div class="dgm">
+			<div class="sdd-platform">
+				<p class="sdd-platform__cap">v2 · e2e отдаём агенту разработчика</p>
+
+				<div class="dgm-roles">
+					<div class="role role--in">
+						<span class="role__ico" role="img" aria-label="аналитик"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.3.3.5.7.5 1.1v.5h6v-.5c0-.4.2-.8.5-1.1A6 6 0 0 0 12 3z"/></svg></span>
+						<b>Аналитик</b>
+						<div class="role__cmd"><code>/explore</code><code>/propose</code></div>
+					</div>
+
+					<div class="gate">quality<br>gate</div>
+
+					<div class="role role--in role--loop">
+						<span class="role__ico" role="img" aria-label="разработчик"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m8 8-4 4 4 4"/><path d="m16 8 4 4-4 4"/><path d="m13.5 6-3 12"/></svg></span>
+						<b>Разработчик</b>
+						<div class="role__cmd"><code>/apply</code></div>
+						<span class="role__loop"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/><path d="M3 21v-5h5"/></svg>код ⇄ e2e</span>
+					</div>
+
+					<div class="gate">quality<br>gate</div>
+
+					<div class="role role--end">
+						<span class="role__ico" role="img" aria-label="merge / prod"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M6 21V9a9 9 0 0 0 9 9"/></svg></span>
+						<b>merge / prod</b>
+					</div>
+				</div>
+
+				<div class="gate-owner">
+					<span class="role__ico" role="img" aria-label="тестировщик"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg></span>
+					<span><b>Тестировщик</b> держит <b>quality gate</b> после аналитика и после разработчика</span>
+				</div>
+			</div>
+
+			<p class="dgm-note dgm-note--good">Агент <b>пишет тесты и гоняет их с правками кода в одном цикле</b> — разрыв этого цикла и есть пережиток</p>
+		</div>
+	</section>
+
+	<!-- ========================= ПЛАН ТЕСТИРОВАНИЯ ========================= -->
+	<section class="slide">
+		<h2>План тестирования (test-plan.md)</h2>
+		<ul>
+			<li>План тестов — <b>часть change</b>, рождается вместе с ним</li>
+			<li class="next">Генерируется агентом из <b>proposal и спеки</b></li>
+			<li class="next">Покрытие на нескольких уровнях: <b>юнит/интеграция</b>, <b>компонентный</b> (на фронте) и <b>e2e-сценарии</b></li>
+			<li class="next">Спеки дают <b class="a">проверяемый критерий</b>: тест отвечает на пункт спеки</li>
+		</ul>
+	</section>
+
+	<!-- ========================= SECTION: TINY TEAMS ========================= -->
+	<section class="slide divider">
+		<h2 class="shout">Tiny teams</h2>
+		<p class="sub">Маленькие автономные команды — куда смещается формат работы</p>
+	</section>
+
+	<!-- ========================= ВОПРОС ЗАЛУ: TINY TEAMS ========================= -->
+	<section class="slide">
+		<div class="ask">
+			<span class="ask-hand" role="img" aria-label="человек с поднятой рукой">🙋</span>
+			<p class="ask-q">Кто слышал про <span class="a">tiny teams</span>?</p>
+		</div>
+	</section>
+
+	<!-- ========================= СОСТАВ TINY TEAM ========================= -->
+	<section class="slide s-diagram">
+		<h2>Из кого состоит <span class="a">tiny team</span></h2>
+		<div class="dgm">
+			<div class="tt-team">
+				<p class="tt-team__cap">tiny team · маленькая автономная команда</p>
+				<div class="dgm-roles">
+					<div class="role role--in">
+						<span class="role__ico" role="img" aria-label="продукт-инженер"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="1" fill="currentColor" stroke="none"/></svg></span>
+						<b>Продукт-инженер</b>
+						<span class="role__badge">обязательно</span>
+					</div>
+
+					<div class="role role--in">
+						<span class="role__ico" role="img" aria-label="full-cycle инженер"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/><path d="M3 21v-5h5"/></svg></span>
+						<b>Full-cycle инженер</b>
+						<span>закрывает весь цикл — от смысла до прода</span>
+					</div>
+				</div>
+			</div>
+
+			<p class="dgm-note dgm-note--good">Маленькая команда, где каждый закрывает <b>широкий срез</b> работы</p>
+		</div>
+	</section>
+
+	<!-- ========================= ВОПРОС ЗАЛУ: FULL-CYCLE ========================= -->
+	<section class="slide">
+		<div class="ask">
+			<span class="ask-hand" role="img" aria-label="человек с поднятой рукой">🙋</span>
+			<p class="ask-q">У кого в командах уже есть <br><span class="a">full-cycle</span> инженеры?</p>
+		</div>
+	</section>
+
+	<!-- ========================= FULL-CYCLE ВБИРАЕТ ДИСЦИПЛИНЫ ========================= -->
+	<section class="slide s-diagram">
+		<h2>Что вбирает <span class="a">full-cycle</span> инженер</h2>
+		<div class="dgm">
+			<div class="fc-target">
+				<span class="role__ico" role="img" aria-label="full-cycle инженер"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/><path d="M3 21v-5h5"/></svg></span>
+				<b>Full-cycle инженер</b>
+			</div>
+
+			<div class="dgm-up">↑ в одного инженера вливаются целые дисциплины ↑</div>
+
+			<div class="dgm-roles">
+				<div class="role">
+					<span class="role__ico" role="img" aria-label="аналитика"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.3.3.5.7.5 1.1v.5h6v-.5c0-.4.2-.8.5-1.1A6 6 0 0 0 12 3z"/></svg></span>
+					<b>Аналитика</b>
+					<span class="role__stat is-ok next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>закрывает</span>
+				</div>
+
+				<div class="role">
+					<span class="role__ico" role="img" aria-label="qa / sdet"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg></span>
+					<b>QA / SDET</b>
+					<span class="role__stat is-ok next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>закрывает</span>
+				</div>
+
+				<div class="role">
+					<span class="role__ico" role="img" aria-label="devops"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span>
+					<b>DevOps</b>
+					<span class="role__stat is-ok next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>верхнеуровнево</span>
+					<span class="role__extra next">+ платформа помогает</span>
+				</div>
+
+				<div class="role">
+					<span class="role__ico" role="img" aria-label="фронтенд"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></span>
+					<b>Фронтенд</b>
+					<span class="role__stat is-q next"><b>?</b>&nbsp;сеньорный навык</span>
+				</div>
+
+				<div class="role">
+					<span class="role__ico" role="img" aria-label="бэкенд"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 5v6c0 1.66-4 3-9 3s-9-1.34-9-3V5"/><path d="M21 11v6c0 1.66-4 3-9 3s-9-1.34-9-3v-6"/></svg></span>
+					<b>Бэкенд</b>
+					<span class="role__stat is-q next"><b>?</b>&nbsp;сеньорный навык</span>
+				</div>
+			</div>
+
+			<p class="dgm-note dgm-note--good next">Требования, тесты и devops закрываются. <b>Фронт и бэк на уровне сеньора</b> — пока открытый вопрос</p>
+		</div>
+	</section>
+
+	<!-- ========================= ПЕРЕХОДНЫЙ ПЕРИОД ========================= -->
+	<section class="slide">
+		<h2><span class="a">Переходный</span> период</h2>
+		<p class="lead" style="margin-bottom:.55em;">Пока фронт и бэк не закрывает один инженер — <b>делим работу прямо в плане</b> и катим двумя прогонами.</p>
+		<div class="tp-split">
+			<pre class="tree tp-plan"><code><span class="tp-file">plan.md</span>
+
+<span class="tp-h">## Фронтенд</span>
+- [ ] Форма и состояния UI
+- [ ] Интеграция с API
+- [ ] Компонентные тесты
+
+<span class="tp-h">## Бэкенд</span>
+- [ ] Эндпоинты и валидация
+- [ ] Миграции схемы
+- [ ] Интеграционные тесты</code></pre>
+
+			<div class="tp-flow next">
+				<span class="tp-arrow">→</span>
+				<div class="tp-cmds">
+					<code>/apply front</code>
+					<code>/apply backend</code>
+					<p class="tp-note">каждый прогон берёт <b>свой раздел</b> плана — можно отдать разным инженерам или агентам</p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+
+	<!-- ========================= SECTION: АНАЛИТИКА ========================= -->
+	<section class="slide divider">
+		<h2 class="shout">Аналитика</h2>
+		<p class="sub">Как аналитики заходили в сквозной SDD</p>
+	</section>
+
+	<!-- ========================= ПЕРЕХОД АНАЛИТИКОВ НА SDD ========================= -->
+	<section class="slide roomy">
+		<h2>Переход аналитиков на SDD</h2>
+		<ol>
+			<li>У многих уже стоял <b class="a">локальный harness</b> для работы с вопросами к реализации</li>
+			<li class="next">Но пришлось провести <b>целый ряд встреч</b> с отработкой рисков <b>отказа от Confluence</b> как источника истины</li>
+			<li class="next"><b>Docs as code</b> даёт небольшие накладные расходы на старте — но работа с агентом <b class="a">нивелирует их кратно</b></li>
+		</ol>
+	</section>
+
+	<!-- ========================= ДОКУМЕНТАЦИЯ ДЛЯ СТЕЙКХОЛДЕРОВ ========================= -->
+	<section class="slide">
+		<h2>Документация для стейкхолдеров</h2>
+		<p class="lead">Человекочитаемую доку <b class="a">собираем из спек</b> отдельным скилом.</p>
+		<div class="cards" style="align-items:stretch;">
+			<div class="card">
+				<span class="yr">источник истины</span>
+				<b>SDD-спеки</b>
+				<p><code>specs/</code> — поведение системы</p>
+			</div>
+			<div style="display:flex; align-items:center; color:#6f00ff; font-size:30px; font-weight:800;">→</div>
+			<div class="card">
+				<span class="yr">отдельный скил</span>
+				<b>Экспорт</b>
+				<p>Человекочитаемый срез</p>
+			</div>
+			<div style="display:flex; align-items:center; color:#6f00ff; font-size:30px; font-weight:800;">→</div>
+			<div class="card">
+				<span class="yr">стейкхолдеры</span>
+				<b>Confluence</b>
+				<p>Публикуем при правках</p>
+			</div>
+		</div>
+		<ul>
+			<li class="next">Правим спеки → дока пересобирается скилом, без ручной синхронизации</li>
+			<li class="next">Не плодим параллельную доку, которая устаревает на второй день</li>
+		</ul>
+	</section>
+
+	<!-- ========================= USECASE VS GHERKIN ========================= -->
+	<section class="slide">
+		<h2>UseCase vs Gherkin</h2>
+		<p class="lead" style="font-size:1em; margin-bottom:.3em;">По умолчанию в <b>OpenSpec</b> — <b class="a">Gherkin</b>.</p>
+		<ul style="font-size:.82em; line-height:1.45;" class="spaced">
+			<li class="next">Попробовали заменить на <b>UseCase</b> по просьбе аналитиков — человеку он читается удобнее</li>
+			<li class="next">Получили <b class="bad">деградацию качества автотестов</b>: Gherkin точнее как приёмочные критерии</li>
+			<li class="next"><b class="a">Вернули Gherkin</b> как основу</li>
+			<li class="next">Для некоторых элементов <b>дополнительно генерируем UseCase</b> — отдельным файлом в change OpenSpec</li>
+		</ul>
+	</section>
+
+	<!-- ========================= ПЛАНЫ ========================= -->
+<!--	<section class="slide">-->
+<!--		<h2>Планы как артефакт</h2>-->
+<!--		<ul>-->
+<!--			<li>План реализации (<code>tasks.md</code>) делает <b>агент</b> на основе proposal и ADR</li>-->
+<!--			<li class="next">План — <b>проверяемый и обозримый</b> список шагов</li>-->
+<!--			<li class="next">Человек ревьюит <b>план до кода</b> — дешевле поймать ошибку на этом шаге</li>-->
+<!--			<li class="next">План живёт в change и архивируется вместе с ним</li>-->
+<!--		</ul>-->
+<!--	</section>-->
+
+	<!-- ========================= МУЛЬТИРЕПО ========================= -->
+	<section class="slide tighter">
+		<h2>Работа с мультирепо</h2>
+		<p class="lead" style="margin-bottom:.35em;">Идеально — монорепо. Но у нас <b>2 монолита</b> (фронт и бек) и пачка <b>сервисов и микросервисов</b> вокруг — каждый в <b>своём репозитории</b>.</p>
+		<ul>
+			<li>Завели <b class="a">meta repository</b> — в нём живёт весь наш <b>harness</b> и <b>OpenSpec</b></li>
+			<li class="next"><code>make up</code> клонирует все репы <b>вложенными папками</b> → по сути превратили в <b class="a">монорепо</b></li>
+			<li class="next">В <code>agents.md</code> мета-репы — <b>карта</b> вложенных репозиториев: что за проект и куда идти в том или ином случае</li>
+			<li class="next">В каждой репе <b>свой</b> <code>agents.md</code> — они работают <b class="a">рекурсивно</b>. Тянет и большую кодовую базу</li>
+		</ul>
+	</section>
+
+	<!-- ========================= МУЛЬТИРЕПО: ДЕРЕВО ========================= -->
+	<section class="slide">
+		<h2>Мета-репозиторий изнутри</h2>
+		<pre class="tree"><code>meta-repo/                 <span class="comment"># наш harness + OpenSpec</span>
+├── Makefile               <span class="comment"># make up → клонирует все репы</span>
+├── agents.md              <span class="comment"># карта: что за проект и куда идти</span>
+├── openspec/              <span class="comment"># спеки и changes (источник истины)</span>
+├── frontend/              <span class="comment"># монолит · фронт   </span><span class="ok">← отдельный репозиторий</span>
+│   └── agents.md          <span class="comment"># свой контекст, работает рекурсивно</span>
+├── backend/               <span class="comment"># монолит · бэк     </span><span class="ok">← отдельный репозиторий</span>
+│   └── agents.md
+├── service-auth/          <span class="comment"># сервис</span>
+│   └── agents.md
+└── service-billing/       <span class="comment"># микросервис</span>
+    └── agents.md</code></pre>
+	</section>
+
+	<!-- ========================= DIVIDER: ТРАССИРОВКА СМЫСЛА ========================= -->
+	<section class="slide divider">
+		<h2 class="shout">Трассировка смысла</h2>
+		<p class="sub">От строки кода — к «зачем»: код ↔ коммит ↔ change ↔ источник истины</p>
+	</section>
+
+	<!-- ========================= ТРАССИРОВКА: КОД → СМЫСЛ ========================= -->
+	<section class="slide">
+		<h2 class="fit">Трассировка: от строки кода к смыслу</h2>
+		<p class="lead" style="margin-bottom:.35em;">Каждый коммит подписан <b class="a">названием change</b>, на основе которого вносился.</p>
+		<div class="cards" style="align-items:stretch;">
+			<div class="card">
+				<span class="yr">шаг 1</span>
+				<b>Кусок кода</b>
+				<p>Агент находит строку, которую нужно понять или поменять</p>
+			</div>
+			<div style="display:flex; align-items:center; color:#6f00ff; font-size:30px; font-weight:800;">→</div>
+			<div class="card">
+				<span class="yr">шаг 2 · git</span>
+				<b>Коммит</b>
+				<p><code>git blame</code> → коммит, подписанный change-id</p>
+			</div>
+			<div style="display:flex; align-items:center; color:#6f00ff; font-size:30px; font-weight:800;">→</div>
+			<div class="card">
+				<span class="yr">шаг 3 · change</span>
+				<b>Смысл</b>
+				<p>Открываем change: <b>зачем</b> писался код и каким был дизайн</p>
+			</div>
+		</div>
+		<p class="note next">Связь «код ↔ change» восстанавливается локально, без похода в трекер.</p>
+	</section>
+
+	<!-- ========================= ПОЧЕМУ CHANGE > ЗАДАЧА ========================= -->
+	<section class="slide tight">
+		<h2>Почему это реально работает</h2>
+		<div class="why-work">
+			<ul class="why-reasons">
+			<li><b class="a">Change &gt; задача в Jira:</b> он держит и <b>смыслы</b> (зачем), и <b>дизайн</b> (как решали) — рядом с кодом</li>
+			<li class="next">Локальный поиск по спекам и changes <b class="a">сильно быстрее</b>, чем дёргать трекер</li>
+			<li class="next">Очень кайфово видеть, как агент <b>понимает смысл кода</b> через поиск по спекам — не по догадкам, а по источнику истины</li>
+		</ul>
+			<div class="cc-term next" role="img" aria-label="Эмуляция лога рассуждений агента: находит код, ищет связанные спеки и changes, опирается на источник истины">
+				<div class="cc-bar"><span class="cc-glyph">✳</span> claude · harness</div>
+				<div class="cc-log">
+					<p class="cc-prompt">&gt; сессия истекает раньше срока — разберись и почини</p>
+					<p class="cc-step"><span class="cc-dot">●</span> Нашёл код, который уже частично решает задачу</p>
+					<p class="cc-sub">⎿ <span class="cc-path">auth/session.ts:42</span> — ротация токена есть, TTL захардкожен</p>
+					<p class="cc-step"><span class="cc-dot">●</span> Ищу связанные спеки…</p>
+					<p class="cc-sub">⎿ <span class="cc-path">specs/auth/spec.md</span> — «TTL сессии — 30 минут»</p>
+					<p class="cc-sub">⎿ <span class="cc-path">changes/session-ttl/</span> — активный change, дизайн готов</p>
+					<p class="cc-step"><span class="cc-dot">●</span> Сверяю намерение с <span class="cc-ok">источником истины</span>, а не гадаю</p>
+					<p class="cc-sub">⎿ правлю по <span class="cc-path">proposal + design</span> из change<span class="cc-cursor">▋</span></p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- ========================= CHANGE-ЦЕНТРИЧНАЯ ПАРАДИГМА ========================= -->
+	<section class="slide">
+		<h2><span class="a">change</span>-центричная парадигма</h2>
+		<ul>
+			<li>Жизненный цикл change видим <b>в моменте</b>: как менялся, какие <b>коммиты</b> привязаны, какие <b>авторы</b> над ним работали</li>
+			<li class="next">Change <b class="a">&ne; task</b>: он начинается раньше — ещё на <b>досках дискавери</b>, и держит смыслы и дизайн</li>
+			<li class="next">Поэтому сделали свой <b>сервис визуализации спек</b> — <b class="a">spek</b>: удобный поиск, статистика, связи, статус прогресса</li>
+		</ul>
+	</section>
+
+	<!-- ========================= SPEK: СПИСОК CHANGES ========================= -->
+	<section class="slide tight">
+		<h2 style="margin-top: -30px;">spek · список changes</h2>
+		<img class="shot" src="pictures/chrome_OnXVj79RXl.png" style="max-height:420px; max-width:94%;" alt="Сервис spek: список активных changes с прогресс-барами выполнения задач и секцией Archived">
+<!--		<p class="shot-cap">Активные предложения с прогрессом задач и архив — на одном экране</p>-->
+	</section>
+
+	<!-- ========================= SPEK: ПРОСМОТР CHANGE ========================= -->
+	<section class="slide tight">
+		<h2>spek · просмотр change</h2>
+		<img class="shot" src="pictures/chrome_JCV7WXWMZj.png" style="max-height:350px; max-width:94%;" alt="Сервис spek: просмотр одного change с табами Proposal, Design, Specs, Tasks и оглавлением">
+		<p class="shot-cap">Один change: proposal · design · specs · tasks — в одном месте</p>
+	</section>
+
+	<!-- ========================= ВСЁ ЛИ ЧЕРЕЗ CHANGE ========================= -->
+	<section class="slide tight">
+		<h2>Всё ли делать через change?</h2>
+		<p class="lead"><b class="a">Нет.</b> Правки, которые <b>не трогают спеки</b>, запускаем обычными промптами — без change.</p>
+		<ul>
+			<li><b>Косметика UI:</b> передвинуть или покрасить кнопку</li>
+			<li class="next"><b>Баг по спеке:</b> поведение уже описано в источнике истины — просто чиним код под него</li>
+			<li class="next">Что можно без change, а что нельзя — фиксирует <b class="a">регламент</b> разрешённых операций</li>
+		</ul>
+	</section>
+
+	<!-- ========================= ТЕХНИЧЕСКИЙ CHANGE ========================= -->
+	<section class="slide tight">
+		<h2>Технический change</h2>
+		<p class="lead">Сокращённый инженерный change: <b>спеки может не менять</b>, но контекст решения держит.</p>
+		<div class="cards">
+			<div class="card"><span class="yr">1</span><b>Смысл</b><p>Зачем меняем — цель и контекст</p></div>
+			<div class="card"><span class="yr">2</span><b>Реализация</b><p>Как решили — ключевые решения</p></div>
+			<div class="card"><span class="yr">3</span><b>План</b><p>Проверяемые шаги реализации</p></div>
+		</div>
+		<p class="note">Типичный пример — <b class="a">рефакторинг</b>: поведение (спека) не меняется, но смысл, реализация и план всё равно фиксируются в change.</p>
+	</section>
+
+	<!-- ========================= КОНТРОЛЬ РЕГЛАМЕНТА ========================= -->
+	<section class="slide tight">
+		<h2>Контроль</h2>
+		<p class="lead">Регламент можно нарушить — иногда change создают «мимо» или не создают вовсе.</p>
+		<ul>
+			<li><b>Сейчас:</b> трассировка коммитов в <b class="a">spek</b> — видно, что и на основе какого change вносилось</li>
+			<li class="next"><b>Дальше:</b> возможно, <b class="a">агент-валидатор в CI</b> будет проверять соблюдение регламента</li>
+		</ul>
+		<div class="cards next" style="margin-top:.55em; align-items:stretch;">
+			<div class="card"><b>Поленился<br>создать change</b></div>
+			<div style="display:flex; align-items:center; color:#6f00ff; font-size:26px; font-weight:800;">&rarr;</div>
+			<div class="card"><b class="bad">Регресс качества спек</b></div>
+			<div style="display:flex; align-items:center; color:#6f00ff; font-size:26px; font-weight:800;">&rarr;</div>
+			<div class="card"><b class="bad">Замедление дальнейшей работы</b></div>
+		</div>
+	</section>
+
+	<!-- ========================= SECTION: HARNESS ========================= -->
+	<section class="slide divider">
+		<h2 class="shout">Harness</h2>
+		<p class="sub">Обвязка вокруг агента, на которой едет весь процесс</p>
+	</section>
+
+	<!-- ========================= SDD — ФУНДАМЕНТ HARNESS ========================= -->
+	<section class="slide">
+		<h2><span class="a">SDD</span> — фундамент нашего harness</h2>
+		<div class="hstack">
+			<p class="layer-cap">Сверху кладём всё остальное</p>
+			<div class="layer-top">
+				<span class="chip">Инженерные практики</span>
+				<span class="chip">Скилы</span>
+				<span class="chip">Правила и политики</span>
+				<span class="chip">Готовые команды</span>
+				<span class="chip">Контекст проекта</span>
+			</div>
+			<div class="layer-base">
+				<b>Сквозной <span class="a">SDD</span></b>
+				<p>Главный и основной источник контекста — единый источник истины для людей и агентов</p>
+			</div>
+		</div>
+	</section>
+
+	<!-- ========================= МАТРИЦА ИНЖЕНЕРНЫХ ПРАКТИК ========================= -->
+	<section class="slide clear" style="padding: 20px 50px;">
+		<table class="prac-matrix">
+			<tr>
+				<th>Практика</th>
+				<th class="col-l2"><span class="lvl-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="1.5" /><path d="M1.5 20h21" /></svg></span>2 уровень<br><span style="font-weight:normal;text-transform:none;letter-spacing:0;font-size:13px;">локальный агент</span></th>
+				<th class="col-l3"><span class="lvl-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="8" width="16" height="12" rx="2" /><path d="M12 8V5" /><circle cx="12" cy="3.5" r="1.2" /><path d="M2 12v4M22 12v4" /><circle cx="9" cy="13.5" r="0.6" fill="currentColor" stroke="none" /><circle cx="15" cy="13.5" r="0.6" fill="currentColor" stroke="none" /></svg></span>3 уровень<br><span style="font-weight:normal;text-transform:none;letter-spacing:0;font-size:13px;">облачный runtime</span></th>
+			</tr>
+			<tr>
+				<td class="prac-name">Сквозной SDD</td>
+				<td class="col-l2"><span class="ptag ptag-base">фундамент</span></td>
+				<td class="col-l3"><span class="ptag ptag-base">фундамент</span></td>
+			</tr>
+			<tr>
+				<td class="prac-name">Quality gates перед merge</td>
+				<td class="col-l2"><span class="ptag ptag-plus">усиливает</span></td>
+				<td class="col-l3"><span class="ptag ptag-must">обязательно</span></td>
+			</tr>
+			<tr>
+				<td class="prac-name">Observability трейсов</td>
+				<td class="col-l2"><span class="ptag ptag-plus">усиливает</span></td>
+				<td class="col-l3"><span class="ptag ptag-must">обязательно</span></td>
+			</tr>
+			<tr>
+				<td class="prac-name">Sandbox: эфемерные окружения + изоляция</td>
+				<td class="col-l2"><span class="ptag ptag-plus">усиливает</span></td>
+				<td class="col-l3"><span class="ptag ptag-must">обязательно</span></td>
+			</tr>
+			<tr>
+				<td class="prac-name">Action Policy / HITL</td>
+				<td class="col-l2"><span class="ptag ptag-plus">ручной HITL</span></td>
+				<td class="col-l3"><span class="ptag ptag-must">обязательно</span></td>
+			</tr>
+			<tr>
+				<td class="prac-name">Evals: автотесты агентов</td>
+				<td class="col-l2"><span class="ptag ptag-plus">усиливает</span></td>
+				<td class="col-l3"><span class="ptag ptag-must">критично</span></td>
+			</tr>
+			<tr>
+				<td class="prac-name">Resource &amp; cost limits</td>
+				<td class="col-l2"><span class="ptag ptag-soft">собирать данные</span></td>
+				<td class="col-l3"><span class="ptag ptag-must">обязательно</span></td>
+			</tr>
+			<tr>
+				<td class="prac-name">Multi-agent coordination</td>
+				<td class="col-l2"><span class="ptag ptag-no">—</span></td>
+				<td class="col-l3"><span class="ptag ptag-must">обязательно</span></td>
+			</tr>
+			<tr>
+				<td class="prac-name">Модельно-независимый harness</td>
+				<td class="col-l2"><span class="ptag ptag-plus">желательно</span></td>
+				<td class="col-l3"><span class="ptag ptag-must">критично</span></td>
+			</tr>
+			<tr>
+				<td class="prac-name">AI Gateway (LLM-прокси)</td>
+				<td class="col-l2"><span class="ptag ptag-plus">усиливает</span></td>
+				<td class="col-l3"><span class="ptag ptag-must">обязательно</span></td>
+			</tr>
+			<tr>
+				<td class="prac-name">Агент с выходом на L3</td>
+				<td class="col-l2"><span class="ptag ptag-no">—</span></td>
+				<td class="col-l3"><span class="ptag ptag-must">обязательно</span></td>
+			</tr>
+			<tr>
+				<td class="prac-name">Agent-first IDP (платформа)</td>
+				<td class="col-l2"><span class="ptag ptag-no">—</span></td>
+				<td class="col-l3"><span class="ptag ptag-must">критично</span></td>
+			</tr>
+		</table>
+	</section>
+
+	<!-- ========================= СКИЛЫ — ОСНОВНЫЕ БЛОКИ ========================= -->
+	<section class="slide">
+		<h2>Скилы — часть нашего <span class="a">harness</span></h2>
+		<div class="cards skills">
+			<div class="card">
+				<span class="yr">берём из сообщества</span>
+				<b>Готовое</b>
+				<ul>
+					<li><b>superpowers</b> — берём часть, например TDD</li>
+					<li><b>agent-browser</b> от Vercel</li>
+					<li><b>skill.sh</b> — независимость от агента</li>
+				</ul>
+			</div>
+			<div class="card next">
+				<span class="yr">пишем сами</span>
+				<b>Свои скилы</b>
+				<ul>
+					<li>Свои скилы для <b>Playwright</b></li>
+					<li>Оптимизация путей агента: <b>дебаг, проверки, просмотр логов</b> и прочее</li>
+					<li>Кастомные под <b>наш стек</b> — на некоторых проектах</li>
+				</ul>
+			</div>
+			<div class="card next">
+				<span class="yr">вокруг процесса</span>
+				<b>Обвязки <span class="a">OpenSpec</span></b>
+				<ul>
+					<li>Разбиение работы <b>по ролям</b></li>
+					<li>Создание <b>пирамиды тестирования</b></li>
+					<li>Экспорт в <b>Confluence</b></li>
+					<li>Сегментирование спек <b>по доменам</b></li>
+					<li><b>Критические вопросы,</b> которые должны быть заданы</li>
+				</ul>
+			</div>
+		</div>
+	</section>
+
+	<!-- ========================= DIVIDER: ЭФФЕКТЫ И СЛЕДСТВИЯ ========================= -->
+	<section class="slide divider">
+		<h2 class="shout">Текущие эффекты<br>и следствия</h2>
+	</section>
+
+	<!-- ========================= УЗКОЕ МЕСТО ========================= -->
+	<section class="slide">
+		<h2>Узкое место сместилось</h2>
+		<ul>
+			<li><b>Не всегда и не у всех</b> оно теперь в разработке</li>
+			<li class="next">Часто — в <b class="bad">продакт-менеджменте</b>: бэклог большой, но <b>без DoR</b></li>
+			<li class="next">И в <b class="bad">пути до прода</b> — чтобы докатить изменение до продакшена</li>
+		</ul>
+	</section>
+
+	<!-- ========================= ЭФФЕКТ И БЕЙЗЛАЙН ========================= -->
+	<section class="slide roomy">
+		<h2>Эффект и бейзлайн</h2>
+		<ul>
+			<li>Бейзлайн оценок у нас <b>уже был</b> — список оценок типовых функциональностей и компонентов</li>
+			<li class="next">После уверенного адопшена <b>переоценили бейзлайн</b> заново</li>
+			<li class="next">Многие оценки <b class="a">сократились</b></li>
+			<li class="next">Это и есть наш <b>доказанный эффект ускорения</b> — на своих же задачах</li>
+		</ul>
+	</section>
+
+	<!-- ========================= SHOUT: ВЫВОДЫ ========================= -->
+	<section class="slide">
+		<h2 class="shout">Выводы</h2>
+	</section>
+
+	<!-- ========================= ВЫВОДЫ ========================= -->
+	<section class="slide">
+		<h2>Что забираем с собой</h2>
+		<ol class="conclusions">
+			<li class="lead">Внедряйте AI в SDLC <b class="a">сквозным образом</b> — единый процесс через всю цепочку</li>
+			<li class="lead next">Внедряйте <b class="a">SDD</b> — спеки как источник истины и общий язык для людей и агентов</li>
+			<li class="lead next"><b class="a">Harness</b> — это движок/ядро вашего производственного процесса. И на рельсах SDD оно едет гораздо увереннее.</li>
+		</ol>
+	</section>
+
+	<!-- ========================= THE END ========================= -->
+	<section class="slide endpage clear">
+		<h2 style="font-size: 45px; margin-top: -16px;">Пожалуйста, оставьте <br> свой отзыв!</h2>
+
+		<svg class="fb-arrow" viewBox="0 0 256 256" aria-hidden="true">
+			<path fill="currentColor" d="m232.49 112.49l-48 48a12 12 0 0 1-17-17L195 116h-67a84.09 84.09 0 0 0-84 84a12 12 0 0 1-24 0A108.12 108.12 0 0 1 128 92h67l-27.49-27.52a12 12 0 0 1 17-17l48 48a12 12 0 0 1-.02 17.01"/>
+		</svg>
+
+		<img class="qr-main" style="position:absolute; left:784px; top:190px; width:184px;" src="pictures/qr-code.svg" alt="QR · оставить отзыв">
+
+		<img class="tq place bottom left" style="margin: 0 0 55px 90px;" src="pictures/qr-techlead-stream.png" alt="QR · канал техлида @techlead_stream">
+
+		<div class="speaker place bottom" style="margin: 0 0 60px;">
+			<img class="avatar" src="pictures/speaker.png" alt="Иван Поддубный">
+			<div>
+				<b>Иван Поддубный</b>
+				<span>CTO Вебпрактик</span>
+				<p class="tg-contact"><svg class="tg-ico" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71l-4.14-3.05-1.99 1.93c-.23.23-.42.42-.83.42z"/></svg>@northleshiy</p>
+			</div>
+		</div>
+	</section>
+
+	<div class="progress"></div>
+
+	<script src="shower/index.js"></script>
+
+</body>
+</html>
